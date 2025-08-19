@@ -11,6 +11,6 @@ public class DeadlineTask extends Task{
   }
 
   public String toString() {
-    return getCompleteStatus() + super.toString() + "(by: " + this.deadline + ")";
+    return getCompleteStatus() + super.toString() + " (by: " + this.deadline + ")";
   }
 }

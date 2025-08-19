@@ -1,7 +1,7 @@
 import java.util.*;
 
 public class B33PBOP {
-  private static final String horizontalLine = "_".repeat(50);
+  private static final String horizontalLine = "_".repeat(75);
   private static final List<Task> taskList = new ArrayList<>();
 
   public static void main(String[] args) {
@@ -23,38 +23,22 @@ public class B33PBOP {
     while (true) {
       String input = sc.nextLine().trim().toLowerCase();
       String[] inputParts = input.split(" ", 2);
-      String command = inputParts[0];
+      String command = inputParts[0].trim();
       String arg = (inputParts.length > 1) ? inputParts[1] : "";
-      String response;
 
       switch (command) {
         case "bye":
-          response = horizontalLine + "\n"
-                  + "Please leave me alone\n"
-                  + horizontalLine + "\n";
-          System.out.println(response);
+          byeResponse();
           break;
         case "list":
-          response = horizontalLine + "\n"
-                  + showTaskList()
-                  + horizontalLine + "\n";
-          System.out.println(response);
+          listResponse();
           continue;
         case "mark":
         case "unmark":
-          int taskIndex = Integer.parseInt(arg) - 1;
-          Task task = taskList.get(taskIndex);
-          response = horizontalLine + "\n"
-                  + task.toggleCompleteStatus()
-                  + horizontalLine + "\n";
-          System.out.println(response);
+          markResponse(arg);
           continue;
         default:
-          response = horizontalLine + "\n"
-                  + "added: " + input + "\n"
-                  + horizontalLine + "\n";
-          addTask(input);
-          System.out.println(response);
+          addTaskResponse(input);
           continue;
       }
       break;
@@ -62,9 +46,10 @@ public class B33PBOP {
     sc.close();
   }
 
-  public static void addTask(String taskName) {
-    Task newTask = new Task(taskName);
+  public static Task addTask(String taskDescription) {
+    Task newTask = TaskFactory.createTask(taskDescription);
     taskList.add(newTask);
+    return newTask;
   }
 
   public static String showTaskList() {
@@ -72,10 +57,40 @@ public class B33PBOP {
     for (int i = 0; i < taskList.size(); i++) {
       int idx = i + 1;
       Task curTask = taskList.get(i);
-      String completeStatus = curTask.getCompleteStatus();
-      String task = idx + "." + completeStatus + curTask + "\n";
+      String task = idx + "." + curTask + "\n";
       sb.append(task);
     }
     return "You really need help remembering all these?\n" + sb;
+  }
+
+  public static void byeResponse() {
+    String response = horizontalLine + "\n"
+            + "Please leave me alone\n"
+            + horizontalLine + "\n";
+    System.out.println(response);
+  }
+
+  public static void listResponse() {
+    String response = horizontalLine + "\n"
+            + showTaskList()
+            + horizontalLine + "\n";
+    System.out.println(response);
+  }
+
+  public static void markResponse(String arg) {
+    int taskIndex = Integer.parseInt(arg) - 1;
+    Task task = taskList.get(taskIndex);
+    String response = horizontalLine + "\n"
+            + task.toggleCompleteStatus()
+            + horizontalLine + "\n";
+    System.out.println(response);
+  }
+
+  public static void addTaskResponse(String taskDescription) {
+    Task newTask = addTask(taskDescription);
+    String response = horizontalLine + "\n"
+            + "This will be the last time i'm adding this for you:\n " + newTask + "\n"
+            + horizontalLine + "\n";
+    System.out.println(response);
   }
 }

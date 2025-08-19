@@ -1,7 +1,6 @@
 public class Task {
   private boolean completeStatus = false;
   private final String taskName;
-  public static void main(String[] args) {}
 
   public Task(String taskName) {
     this.taskName = taskName;
@@ -20,11 +19,11 @@ public class Task {
     return statusMessage;
   }
 
-  public String toString() {
-    return taskName;
-  }
-
   public String getCompleteStatus() {
     return this.completeStatus ? "[X] " : "[ ] ";
+  }
+
+  public String toString() {
+    return this.taskName;
   }
 }

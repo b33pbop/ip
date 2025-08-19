@@ -6,7 +6,7 @@ public class B33PBOP {
 
   public static void main(String[] args) {
     B33PBOP.greet();
-    B33PBOP.echo();
+    B33PBOP.runCommand();
   }
 
   public static void greet() {
@@ -18,32 +18,41 @@ public class B33PBOP {
     System.out.println(greetings);
   }
 
-  public static void echo() {
+  public static void runCommand() {
     Scanner sc = new Scanner(System.in);
     while (true) {
       String input = sc.nextLine().trim().toLowerCase();
+      String[] inputParts = input.split(" ", 2);
+      String command = inputParts[0];
+      String arg = (inputParts.length > 1) ? inputParts[1] : "";
       String response;
 
-      switch (input) {
+      switch (command) {
         case "bye":
-          response =
-                  horizontalLine + "\n"
-                          + "Please leave me alone\n"
-                          + horizontalLine + "\n";
+          response = horizontalLine + "\n"
+                  + "Please leave me alone\n"
+                  + horizontalLine + "\n";
           System.out.println(response);
           break;
         case "list":
-          response =
-                  horizontalLine + "\n"
-                          + showTaskList()
-                          + horizontalLine + "\n";
+          response = horizontalLine + "\n"
+                  + showTaskList()
+                  + horizontalLine + "\n";
+          System.out.println(response);
+          continue;
+        case "mark":
+        case "unmark":
+          int taskIndex = Integer.parseInt(arg) - 1;
+          Task task = taskList.get(taskIndex);
+          response = horizontalLine + "\n"
+                  + task.toggleCompleteStatus()
+                  + horizontalLine + "\n";
           System.out.println(response);
           continue;
         default:
-          response =
-                  horizontalLine + "\n"
-                          + "added: " + input + "\n"
-                          + horizontalLine + "\n";
+          response = horizontalLine + "\n"
+                  + "added: " + input + "\n"
+                  + horizontalLine + "\n";
           addTask(input);
           System.out.println(response);
           continue;
@@ -62,9 +71,11 @@ public class B33PBOP {
     StringBuilder sb = new StringBuilder();
     for (int i = 0; i < taskList.size(); i++) {
       int idx = i + 1;
-      String task = idx + ". " + taskList.get(i) + "\n";
+      Task curTask = taskList.get(i);
+      String completeStatus = curTask.getCompleteStatus();
+      String task = idx + "." + completeStatus + curTask + "\n";
       sb.append(task);
     }
-    return sb.toString();
+    return "You really need help remembering all these?\n" + sb;
   }
 }

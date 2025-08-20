@@ -21,3 +21,9 @@ class IncompleteArgumentException extends BotException {
     super(msg);
   }
 }
+
+class TaskListIndexOutOfBoundException extends BotException {
+  public TaskListIndexOutOfBoundException(String msg) {
+    super(msg);
+  }
+}

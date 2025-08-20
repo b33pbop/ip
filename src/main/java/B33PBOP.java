@@ -47,6 +47,10 @@ public class B33PBOP {
             addTaskResponse(input); // full input goes to TaskFactory
             break;
 
+          case "delete":
+            deleteTaskResponse(arg);
+            break;
+
           default:
             throw new InvalidCommandException("What even is '" + input + "'?\n");
         }
@@ -63,6 +67,21 @@ public class B33PBOP {
     Task newTask = TaskFactory.createTask(taskDescription);
     taskList.add(newTask);
     return newTask;
+  }
+
+  public static Task deleteTask(int taskId) throws BotException {
+    int taskIdx = taskId - 1;
+    if (taskList.isEmpty()) {
+      throw new TaskListIndexOutOfBoundException("Your list is literally empty\n");
+    }
+
+    if (taskId > taskList.size()) {
+      throw new InvalidArgumentException("That task don't exist, do you even know what you added??\n");
+    } else if (taskId < 1) {
+      throw new InvalidArgumentException("Are you drunk? Task " + taskId + "?\n");
+    } else {
+      return taskList.remove(taskIdx);
+    }
   }
 
   public static String showTaskList() {
@@ -107,7 +126,16 @@ public class B33PBOP {
     Task newTask = addTask(taskDescription);
     String response = horizontalLine + "\n"
             + "This will be the last time I'm adding this for you:\n "
-            + newTask + "\n"
+            + "+ " + newTask + "\n"
+            + horizontalLine + "\n";
+    System.out.println(response);
+  }
+
+  public static void deleteTaskResponse(String deletedTask) throws BotException {
+    Task task = deleteTask(Integer.parseInt(deletedTask));
+    String response = horizontalLine + "\n"
+            + "Thank god, you should really keep deleting tasks:\n"
+            + "- " + task + "\n"
             + horizontalLine + "\n";
     System.out.println(response);
   }

@@ -8,6 +8,7 @@ public class ToDoTask extends Task{
     return "[T]" + super.getCompleteStatus();
   }
 
+  @Override
   public String toString() {
     return getCompleteStatus() + super.toString();
   }

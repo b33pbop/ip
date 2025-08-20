@@ -10,43 +10,56 @@ public class B33PBOP {
   }
 
   public static void greet() {
-    String greetings =
-            horizontalLine + "\n"
-                    + "I'm B33PBOP...\n"
-                    + "What do you want?\n"
-                    + horizontalLine + "\n";
+    String greetings = horizontalLine + "\n"
+            + "I'm B33PBOP...\n"
+            + "What do you want?\n"
+            + horizontalLine + "\n";
     System.out.println(greetings);
   }
 
   public static void runCommand() {
     Scanner sc = new Scanner(System.in);
     while (true) {
-      String input = sc.nextLine().trim().toLowerCase();
+      String input = sc.nextLine().trim();
       String[] inputParts = input.split(" ", 2);
-      String command = inputParts[0].trim();
+      String command = inputParts[0].trim().toLowerCase();  // normalize command
       String arg = (inputParts.length > 1) ? inputParts[1] : "";
 
-      switch (command) {
-        case "bye":
-          byeResponse();
-          break;
-        case "list":
-          listResponse();
-          continue;
-        case "mark":
-        case "unmark":
-          markResponse(arg);
-          continue;
-        default:
-          addTaskResponse(input);
-          continue;
+      try {
+        switch (command) {
+          case "bye":
+            byeResponse();
+            sc.close();
+            return; // exit loop
+
+          case "list":
+            listResponse();
+            break;
+
+          case "mark":
+          case "unmark":
+            markResponse(arg);
+            break;
+
+          case "todo":
+          case "deadline":
+          case "event":
+            addTaskResponse(input); // full input goes to TaskFactory
+            break;
+
+          default:
+            throw new InvalidCommandException("What even is '" + input + "'?\n");
+        }
+      } catch (BotException error) {
+        String errorMsg = horizontalLine + "\n"
+                + error.getMessage()
+                + horizontalLine + "\n";
+        System.out.println(errorMsg);
       }
-      break;
     }
-    sc.close();
   }
 
-  public static Task addTask(String taskDescription) {
+  public static Task addTask(String taskDescription) throws BotException {
     Task newTask = TaskFactory.createTask(taskDescription);
     taskList.add(newTask);
     return newTask;
@@ -77,19 +90,24 @@ public class B33PBOP {
     System.out.println(response);
   }
 
-  public static void markResponse(String arg) {
-    int taskIndex = Integer.parseInt(arg) - 1;
-    Task task = taskList.get(taskIndex);
-    String response = horizontalLine + "\n"
-            + task.toggleCompleteStatus()
-            + horizontalLine + "\n";
-    System.out.println(response);
+  public static void markResponse(String arg) throws BotException {
+    try {
+      int taskIndex = Integer.parseInt(arg) - 1;
+      Task task = taskList.get(taskIndex);
+      String response = horizontalLine + "\n"
+              + task.toggleCompleteStatus()
+              + horizontalLine + "\n";
+      System.out.println(response);
+    } catch (NumberFormatException | IndexOutOfBoundsException e) {
+      throw new InvalidArgumentException("That task don't even exist");
+    }
   }
 
-  public static void addTaskResponse(String taskDescription) {
+  public static void addTaskResponse(String taskDescription) throws BotException {
     Task newTask = addTask(taskDescription);
     String response = horizontalLine + "\n"
-            + "This will be the last time i'm adding this for you:\n " + newTask + "\n"
+            + "This will be the last time I'm adding this for you:\n "
+            + newTask + "\n"
             + horizontalLine + "\n";
     System.out.println(response);
   }

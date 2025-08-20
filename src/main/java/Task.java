@@ -23,6 +23,7 @@ public class Task {
     return this.completeStatus ? "[X] " : "[ ] ";
   }
 
+  @Override
   public String toString() {
     return this.taskName;
   }

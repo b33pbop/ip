@@ -10,6 +10,7 @@ public class DeadlineTask extends Task{
     return "[D]" + super.getCompleteStatus();
   }
 
+  @Override
   public String toString() {
     return getCompleteStatus() + super.toString() + " (by: " + this.deadline + ")";
   }

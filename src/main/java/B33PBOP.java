@@ -1,6 +1,17 @@
 import java.util.*;
 
 public class B33PBOP {
+  public enum Command {
+    TODO,
+    DEADLINE,
+    EVENT,
+    MARK,
+    UNMARK,
+    DELETE,
+    LIST,
+    BYE
+  }
+
   private static final String horizontalLine = "_".repeat(75);
   private static final List<Task> taskList = new ArrayList<>();
 
@@ -22,32 +33,34 @@ public class B33PBOP {
     while (true) {
       String input = sc.nextLine().trim();
       String[] inputParts = input.split(" ", 2);
-      String command = inputParts[0].trim().toLowerCase();  // normalize command
+      String cmdStr = inputParts[0].trim();
       String arg = (inputParts.length > 1) ? inputParts[1] : "";
 
       try {
+        Command command = parseCommand(cmdStr);
+
         switch (command) {
-          case "bye":
+          case BYE:
             byeResponse();
             sc.close();
             return; // exit loop
 
-          case "list":
+          case LIST:
             listResponse();
             break;
 
-          case "mark":
-          case "unmark":
+          case MARK:
+          case UNMARK:
             markResponse(arg);
             break;
 
-          case "todo":
-          case "deadline":
-          case "event":
+          case TODO:
+          case DEADLINE:
+          case EVENT:
             addTaskResponse(input); // full input goes to TaskFactory
             break;
 
-          case "delete":
+          case DELETE:
             deleteTaskResponse(arg);
             break;
 
@@ -93,6 +106,14 @@ public class B33PBOP {
       sb.append(task);
     }
     return "You really need help remembering all these?\n" + sb;
+  }
+
+  private static Command parseCommand(String cmdStr) throws InvalidCommandException {
+    try {
+      return Command.valueOf(cmdStr.toUpperCase());
+    } catch (IllegalArgumentException e) {
+      throw new InvalidCommandException("What even is '" + cmdStr + "'?\n");
+    }
   }
 
   public static void byeResponse() {

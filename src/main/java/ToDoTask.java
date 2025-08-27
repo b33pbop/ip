@@ -4,12 +4,14 @@ public class ToDoTask extends Task{
     }
 
     @Override
-    public String getCompleteStatus() {
-        return "[T]" + super.getCompleteStatus();
+    public String printCompleteStatus() {
+        return "[T]" + super.printCompleteStatus();
     }
 
     @Override
-    public String toString() {
-        return getCompleteStatus() + super.toString();
+    public String toSaveFormat() {
+        return "T | "
+                + super.printCompleteStatus() + "| "
+                + getTaskName();
     }
 }

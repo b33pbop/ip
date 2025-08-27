@@ -1,4 +1,4 @@
-public class Task {
+public abstract class Task {
     private boolean completeStatus = false;
     private final String taskName;
 
@@ -6,25 +6,34 @@ public class Task {
         this.taskName = taskName;
     }
 
-    public String toggleCompleteStatus() {
-        this.completeStatus = !this.completeStatus;
-        String statusMessage;
+    public void markTaskComplete() throws BotException {
         if (this.completeStatus) {
-            statusMessage = "Ugh. Can't you do this yourself?\n"
-                    + getCompleteStatus() + this.taskName + "\n";
-        } else {
-            statusMessage = "Make up your mind...\n"
-                    + getCompleteStatus() + this.taskName + "\n";
+            throw new InvalidArgumentException("You already marked this as complete...\n");
         }
-        return statusMessage;
+
+        this.completeStatus = true;
     }
 
-    public String getCompleteStatus() {
+    public void unmarkTaskComplete() throws BotException {
+        if (!this.completeStatus) {
+            throw new InvalidArgumentException("This task isn't even complete...\n");
+        }
+
+        this.completeStatus = false;
+    }
+
+    public String printCompleteStatus() {
         return this.completeStatus ? "[X] " : "[ ] ";
     }
 
+    public String getTaskName() {
+        return this.taskName;
+    }
+
+    public abstract String toSaveFormat();
+
     @Override
     public String toString() {
-        return this.taskName;
+        return printCompleteStatus() + " " + getTaskName();
     }
 }

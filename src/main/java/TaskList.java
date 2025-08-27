@@ -1,5 +1,8 @@
 import java.util.ArrayList;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.Scanner;
 
 public class TaskList {
     // List of tasks managed by the bot
@@ -8,6 +11,10 @@ public class TaskList {
     public Task getTask(int taskId) {
         int taskIdx = taskId - 1;
         return myTasks.get(taskIdx);
+    }
+
+    public List<Task> getAllTasks() {
+        return this.myTasks;
     }
 
     /**
@@ -19,6 +26,7 @@ public class TaskList {
     public Task addTask(String taskDescription) throws BotException {
         Task newTask = TaskFactory.createTask(taskDescription);
         myTasks.add(newTask);
+
         return newTask;
     }
 
@@ -86,5 +94,58 @@ public class TaskList {
             sb.append(task);
         }
         return "You really need help remembering all these?\n" + sb;
+    }
+
+    public void loadTasks(File file) throws IOException{
+        if (!file.exists()) {
+            return;
+        }
+
+        try (Scanner sc = new Scanner(file)) {
+            while (sc.hasNextLine()) {
+                String line = sc.nextLine();
+                Task task = parseTaskFromStorage(line);
+                myTasks.add(task);
+            }
+        } catch (BotException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private Task parseTaskFromStorage(String line) throws BotException {
+        String[] parts = line.split(" \\| ");
+        String type = parts[0].strip();
+        boolean isComplete = parts[1].strip().equals("[X]");
+        String description = parts[2].strip();
+
+        switch (type) {
+        case "T":
+            Task todoTask = new ToDoTask(description);
+            if (isComplete) {
+                todoTask.markTaskComplete();
+            }
+            return todoTask;
+
+        case "D":
+            String deadline = parts[3].strip();
+            Task deadlineTask = new DeadlineTask(description, deadline);
+            if (isComplete) {
+                deadlineTask.markTaskComplete();
+            }
+            return deadlineTask;
+
+        case "E":
+            String dateRange = parts[3].strip();
+            String from = dateRange.split("-")[0];
+            String to = dateRange.split("-")[1];
+            Task eventTask = new EventTask(description, from, to);
+            if (isComplete) {
+                eventTask.markTaskComplete();
+            }
+            return eventTask;
+
+        default:
+            throw new BotException("Corrupted task in file: " + line);
+        }
     }
 }

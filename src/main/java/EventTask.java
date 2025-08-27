@@ -13,6 +13,14 @@ public class EventTask extends Task {
     }
 
     @Override
+    public String toSaveFormat() {
+        return "D | "
+                + super.printCompleteStatus() + "| "
+                + getTaskName() + " | "
+                + this.from + "-" + this.to;
+    }
+
+    @Override
     public String toString() {
         return super.toString() + " (from: " + this.from + " to: " + this.to + ")";
     }

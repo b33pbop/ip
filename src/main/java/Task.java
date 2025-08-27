@@ -1,4 +1,4 @@
-public class Task {
+public abstract class Task {
     private boolean completeStatus = false;
     private final String taskName;
 
@@ -29,6 +29,8 @@ public class Task {
     public String getTaskName() {
         return this.taskName;
     }
+
+    public abstract String toSaveFormat();
 
     @Override
     public String toString() {

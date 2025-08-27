@@ -7,4 +7,11 @@ public class ToDoTask extends Task{
     public String printCompleteStatus() {
         return "[T]" + super.printCompleteStatus();
     }
+
+    @Override
+    public String toSaveFormat() {
+        return "T | "
+                + super.printCompleteStatus() + "| "
+                + getTaskName();
+    }
 }

@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -25,12 +26,22 @@ public class B33PBOP {
 
     // List of tasks managed by the bot
     private static final TaskList myTasks = new TaskList();
+
+    private static Storage storage;
+
     /**
      * Main entry point of B33PBOP.
      * Prints greetings and starts command processing.
      * @param args Command-line arguments
      */
     public static void main(String[] args) {
+        try {
+            storage = new Storage();
+            myTasks.loadTasks(storage.getStorageFile());
+        } catch (IOException e) {
+            System.out.println("Error initializing storage: " + e.getMessage());
+        }
+
         B33PBOP.greet();
         B33PBOP.runCommand();
     }
@@ -86,6 +97,11 @@ public class B33PBOP {
                 case DEADLINE:
                 case EVENT:
                     addTaskResponse(input);
+                    try {
+                        storage.updateStorage(myTasks.getAllTasks());
+                    } catch (IOException e) {
+                        System.out.println(e.getMessage());
+                    }
                     break;
 
                 case DELETE:

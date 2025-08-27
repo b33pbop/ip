@@ -6,12 +6,12 @@ public class DeadlineTask extends Task{
     }
 
     @Override
-    public String getCompleteStatus() {
-        return "[D]" + super.getCompleteStatus();
+    public String printCompleteStatus() {
+        return "[D]" + super.printCompleteStatus();
     }
 
     @Override
     public String toString() {
-        return getCompleteStatus() + super.toString() + " (by: " + this.deadline + ")";
+        return super.toString() + " (by: " + this.deadline + ")";
     }
 }

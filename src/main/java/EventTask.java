@@ -8,12 +8,12 @@ public class EventTask extends Task {
     }
 
     @Override
-    public String getCompleteStatus() {
-        return "[E]" + super.getCompleteStatus();
+    public String printCompleteStatus() {
+        return "[E]" + super.printCompleteStatus();
     }
 
     @Override
     public String toString() {
-        return getCompleteStatus() + super.toString() + " (from: " + this.from + " to: " + this.to + ")";
+        return super.toString() + " (from: " + this.from + " to: " + this.to + ")";
     }
 }

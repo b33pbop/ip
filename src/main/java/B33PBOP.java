@@ -1,9 +1,7 @@
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 /**
- * B33PBOP is a command-lin task management bot.
+ * B33PBOP is a command-line task management bot.
  * It supports commands to add tasks, delete tasks, list tasks, mark/unmark task completion and exit.
  */
 public class B33PBOP {
@@ -26,8 +24,7 @@ public class B33PBOP {
     private static final String HORIZONTAL_LINE = "_".repeat(75);
 
     // List of tasks managed by the bot
-    private static final List<Task> myTasks = new ArrayList<>();
-
+    private static final TaskList myTasks = new TaskList();
     /**
      * Main entry point of B33PBOP.
      * Prints greetings and starts command processing.
@@ -76,14 +73,19 @@ public class B33PBOP {
                     break;
 
                 case MARK:
+                    myTasks.handleMarkTaskComplete(arg);
+                    markTaskCompleteResponse(myTasks.getTask(Integer.parseInt(arg)));
+                    break;
+
                 case UNMARK:
-                    markResponse(arg);
+                    myTasks.handleUnmarkTaskComplete(arg);
+                    unmarkTaskCompleteResponse(myTasks.getTask(Integer.parseInt(arg)));
                     break;
 
                 case TODO:
                 case DEADLINE:
                 case EVENT:
-                    addTaskResponse(input); // full input goes to TaskFactory
+                    addTaskResponse(input);
                     break;
 
                 case DELETE:
@@ -100,54 +102,6 @@ public class B33PBOP {
                 System.out.println(errorMsg);
             }
         }
-    }
-
-    /**
-     * Creates a new task based on the given task description and adds it to the task list.
-     * @param taskDescription Description of the task to be added.
-     * @return A new Task object.
-     * @throws BotException If the task creation fails.
-     */
-    public static Task addTask(String taskDescription) throws BotException {
-        Task newTask = TaskFactory.createTask(taskDescription);
-        myTasks.add(newTask);
-        return newTask;
-    }
-
-    /**
-     * Deletes a task based on its ID from the task list.
-     * @param taskId 1-based index of the task to delete.
-     * @return The deleted Task object.
-     * @throws BotException If the task is empty or the taskId is invalid.
-     */
-    public static Task deleteTask(int taskId) throws BotException {
-        int taskIdx = taskId - 1;
-        if (myTasks.isEmpty()) {
-            throw new TaskListIndexOutOfBoundException("Your list is literally empty\n");
-        }
-
-        if (taskId > myTasks.size()) {
-            throw new InvalidArgumentException("That task don't exist, do you even know what you added??\n");
-        } else if (taskId < 1) {
-            throw new InvalidArgumentException("Are you drunk? Task " + taskId + "?\n");
-        } else {
-            return myTasks.remove(taskIdx);
-        }
-    }
-
-    /**
-     * Returns a formatted string representation of all tasks in the task list.
-     * @return A string that lists all tasks with their indices (1-indexed).
-     */
-    public static String showTaskList() {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < myTasks.size(); i++) {
-            int idx = i + 1;
-            Task curTask = myTasks.get(i);
-            String task = idx + "." + curTask + "\n";
-            sb.append(task);
-        }
-        return "You really need help remembering all these?\n" + sb;
     }
 
     /**
@@ -179,29 +133,32 @@ public class B33PBOP {
      */
     public static void listResponse() {
         String response = HORIZONTAL_LINE + "\n"
-                + showTaskList()
+                + myTasks.showTaskList()
                 + HORIZONTAL_LINE + "\n";
         System.out.println(response);
     }
 
     /**
-     * Marks or unmarks a task as complete based on its index.
-     * @param taskIdx 1-based index of the task to be marked/unmarked.
-     * @throws BotException If index is invalid of the task does not exist.
+     * Marks a task as complete based on its index.
      */
-    public static void markResponse(String taskIdx) throws BotException {
-        try {
-            int taskIndex = Integer.parseInt(taskIdx) - 1;
-            Task task = myTasks.get(taskIndex);
-            String response = HORIZONTAL_LINE + "\n"
-                    + task.toggleCompleteStatus()
-                    + HORIZONTAL_LINE + "\n";
-            System.out.println(response);
-        } catch (NumberFormatException | IndexOutOfBoundsException e) {
-            throw new InvalidArgumentException("That task don't even exist");
-        }
+    public static void markTaskCompleteResponse(Task task) {
+        String response = HORIZONTAL_LINE + "\n"
+                + "Ugh. Can't you do this yourself?\n"
+                + task + "\n"
+                + HORIZONTAL_LINE + "\n";
+        System.out.println(response);
     }
 
+    /**
+     * Unmarks a task as complete based on its index.
+     */
+    public static void unmarkTaskCompleteResponse(Task task) {
+        String response = HORIZONTAL_LINE + "\n"
+                + "Make up your mind...\n"
+                + task + "\n"
+                + HORIZONTAL_LINE + "\n";
+        System.out.println(response);
+    }
 
     /**
      * Prints the bot's response when any add task command is executed.
@@ -209,7 +166,7 @@ public class B33PBOP {
      * @throws BotException If the task creation fails.
      */
     public static void addTaskResponse(String taskDescription) throws BotException {
-        Task newTask = addTask(taskDescription);
+        Task newTask = myTasks.addTask(taskDescription);
         String response = HORIZONTAL_LINE + "\n"
                 + "This will be the last time I'm adding this for you:\n "
                 + "+ " + newTask + "\n"
@@ -223,7 +180,7 @@ public class B33PBOP {
      * @throws BotException If the task deletion fails.
      */
     public static void deleteTaskResponse(String taskDescription) throws BotException {
-        Task task = deleteTask(Integer.parseInt(taskDescription));
+        Task task = myTasks.deleteTask(Integer.parseInt(taskDescription));
         String response = HORIZONTAL_LINE + "\n"
                 + "Thank god, you should really keep deleting tasks:\n"
                 + "- " + task + "\n"

@@ -1,5 +1,7 @@
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Scanner;
+import java.util.Map;
 
 /**
  * B33PBOP is a command-line task management bot.
@@ -20,14 +22,9 @@ public class B33PBOP {
         LIST,
         BYE
     }
-
-    // Horizontal line used to format bot response.
-    private static final String HORIZONTAL_LINE = "_".repeat(75);
-
-    // List of tasks managed by the bot
-    private static final TaskList myTasks = new TaskList();
-
-    private static Storage storage;
+    private final Map<Command, CommandExecutor> COMMAND_MAP = new HashMap<>();
+    private final UI UI;
+    private final TaskList MY_TASKS; // List of tasks managed by the bot
 
     /**
      * Main entry point of B33PBOP.
@@ -35,92 +32,68 @@ public class B33PBOP {
      * @param args Command-line arguments
      */
     public static void main(String[] args) {
+        new B33PBOP().start();
+    }
+
+    public B33PBOP() {
+        this.UI = new UI();
+        this.MY_TASKS = new TaskList();
+
+        Storage storage = null;
         try {
             storage = new Storage();
-            myTasks.loadTasks(storage.getStorageFile());
+            MY_TASKS.loadTasks(storage.getStorageFile());
         } catch (IOException e) {
             System.out.println("Error initializing storage: " + e.getMessage());
         }
 
-        B33PBOP.greet();
-        B33PBOP.runCommand();
+        registerCommands(storage);
     }
 
-    /**
-     * Prints the initial greeting message when the bot starts
-     */
-    public static void greet() {
-        String greetings = HORIZONTAL_LINE + "\n"
-                + "I'm B33PBOP...\n"
-                + "What do you want?\n"
-                + HORIZONTAL_LINE + "\n";
-        System.out.println(greetings);
+    private void registerCommands(Storage storage) {
+        COMMAND_MAP.put(Command.BYE, new ByeCommand(UI));
+        COMMAND_MAP.put(Command.LIST, new ListCommand(MY_TASKS, UI));
+        COMMAND_MAP.put(Command.TODO, new AddTaskCommand(MY_TASKS, UI, storage));
+        COMMAND_MAP.put(Command.DEADLINE, new AddTaskCommand(MY_TASKS, UI, storage));
+        COMMAND_MAP.put(Command.EVENT, new AddTaskCommand(MY_TASKS, UI, storage));
+        COMMAND_MAP.put(Command.DELETE, new DeleteTaskCommand(MY_TASKS, UI, storage));
+        COMMAND_MAP.put(Command.MARK, new MarkTaskCommand(MY_TASKS, UI));
+        COMMAND_MAP.put(Command.UNMARK, new UnmarkTaskCommand(MY_TASKS, UI));
     }
-
+    
+    public void start() {
+        this.UI.showGreetResponse();
+        runCommand();
+    }
+    
     /**
      * Reads and processes user commands in a loop until the BYE command is entered.
      * Commands are parsed and delegated to corresponding response methods.
      */
-    public static void runCommand() {
-        // Scanner to read user input from terminal
+    public void runCommand() {
         Scanner sc = new Scanner(System.in);
-        while (true) {
+        boolean isExit = true;
+        while (isExit) {
             String input = sc.nextLine().trim();
             String[] inputParts = input.split(" ", 2);
             String cmdStr = inputParts[0].trim();
-            String arg = (inputParts.length > 1) ? inputParts[1] : "";
+//            String arg = (inputParts.length > 1) ? inputParts[1] : "";
 
             try {
                 Command command = parseCommand(cmdStr);
 
-                switch (command) {
-                case BYE:
-                    byeResponse();
-                    sc.close();
-                    return; // exit loop
-
-                case LIST:
-                    listResponse();
-                    break;
-
-                case MARK:
-                    myTasks.handleMarkTaskComplete(arg);
-                    markTaskCompleteResponse(myTasks.getTask(Integer.parseInt(arg)));
-                    break;
-
-                case UNMARK:
-                    myTasks.handleUnmarkTaskComplete(arg);
-                    unmarkTaskCompleteResponse(myTasks.getTask(Integer.parseInt(arg)));
-                    break;
-
-                case TODO:
-                case DEADLINE:
-                case EVENT:
-                    addTaskResponse(input);
-                    try {
-                        storage.updateStorage(myTasks.getAllTasks());
-                    } catch (IOException e) {
-                        System.out.println(e.getMessage());
-                    }
-                    break;
-
-                case DELETE:
-                    deleteTaskResponse(arg);
-                    try {
-                        storage.updateStorage(myTasks.getAllTasks());
-                    } catch (IOException e) {
-                        System.out.println(e.getMessage());
-                    }
-                    break;
-
-                default:
+                System.out.println(command);
+                // Use the COMMAND_MAP to get the executor
+                CommandExecutor executor = COMMAND_MAP.get(command);
+                System.out.println(executor);
+                if (executor != null) {
+                    System.out.println(input);
+                    isExit = executor.execute(input);
+                } else {
                     throw new InvalidCommandException("What even is '" + input + "'?\n");
                 }
-            } catch (BotException error) {
-                String errorMsg = HORIZONTAL_LINE + "\n"
-                        + error.getMessage()
-                        + HORIZONTAL_LINE + "\n";
-                System.out.println(errorMsg);
+            } catch (BotException e) {
+                UI.showRunErrorMessage(e.getMessage());
             }
         }
     }
@@ -137,76 +110,6 @@ public class B33PBOP {
         } catch (IllegalArgumentException e) {
             throw new InvalidCommandException("What even is '" + cmdStr + "'?\n");
         }
-    }
-
-    /**
-     * Prints the exit message when the BYE command is executed.
-     */
-    public static void byeResponse() {
-        String response = HORIZONTAL_LINE + "\n"
-                + "Please leave me alone\n"
-                + HORIZONTAL_LINE + "\n";
-        System.out.println(response);
-    }
-
-    /**
-     * Prints the current list of tasks in a formatted way when the LIST command is executed.
-     */
-    public static void listResponse() {
-        String response = HORIZONTAL_LINE + "\n"
-                + myTasks.showTaskList()
-                + HORIZONTAL_LINE + "\n";
-        System.out.println(response);
-    }
-
-    /**
-     * Marks a task as complete based on its index.
-     */
-    public static void markTaskCompleteResponse(Task task) {
-        String response = HORIZONTAL_LINE + "\n"
-                + "Ugh. Can't you do this yourself?\n"
-                + task + "\n"
-                + HORIZONTAL_LINE + "\n";
-        System.out.println(response);
-    }
-
-    /**
-     * Unmarks a task as complete based on its index.
-     */
-    public static void unmarkTaskCompleteResponse(Task task) {
-        String response = HORIZONTAL_LINE + "\n"
-                + "Make up your mind...\n"
-                + task + "\n"
-                + HORIZONTAL_LINE + "\n";
-        System.out.println(response);
-    }
-
-    /**
-     * Prints the bot's response when any add task command is executed.
-     * @param taskDescription Description of the task to be added.
-     * @throws BotException If the task creation fails.
-     */
-    public static void addTaskResponse(String taskDescription) throws BotException {
-        Task newTask = myTasks.addTask(taskDescription);
-        String response = HORIZONTAL_LINE + "\n"
-                + "This will be the last time I'm adding this for you:\n "
-                + "+ " + newTask + "\n"
-                + HORIZONTAL_LINE + "\n";
-        System.out.println(response);
-    }
-
-    /**
-     * Prints the bot's response when the DELETE command is executed.
-     * @param taskDescription Description of the task to be deleted.
-     * @throws BotException If the task deletion fails.
-     */
-    public static void deleteTaskResponse(String taskDescription) throws BotException {
-        Task task = myTasks.deleteTask(Integer.parseInt(taskDescription));
-        String response = HORIZONTAL_LINE + "\n"
-                + "Thank god, you should really keep deleting tasks:\n"
-                + "- " + task + "\n"
-                + HORIZONTAL_LINE + "\n";
-        System.out.println(response);
     }
 }
 

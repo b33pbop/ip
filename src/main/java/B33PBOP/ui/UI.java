@@ -1,3 +1,9 @@
+package B33PBOP.ui;
+
+import B33PBOP.task.TaskList;
+import B33PBOP.task.Task;
+import B33PBOP.exception.BotException;
+
 public class UI {
     private final String HORIZONTAL_LINE = "_".repeat(75);
 
@@ -6,7 +12,7 @@ public class UI {
      */
     public void showGreetResponse() {
         String greetings = HORIZONTAL_LINE + "\n"
-                + "I'm B33PBOP...\n"
+                + "I'm B33PBOP.ui.B33PBOP...\n"
                 + "What do you want?\n"
                 + HORIZONTAL_LINE + "\n";
         System.out.println(greetings);

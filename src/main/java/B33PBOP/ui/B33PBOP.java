@@ -1,10 +1,18 @@
+package B33PBOP.ui;
+
+import B33PBOP.command.*;
+import B33PBOP.exception.BotException;
+import B33PBOP.exception.InvalidCommandException;
+import B33PBOP.storage.Storage;
+import B33PBOP.task.TaskList;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Scanner;
 import java.util.Map;
 
 /**
- * B33PBOP is a command-line task management bot.
+ * B33PBOP.ui.B33PBOP is a command-line task management bot.
  * It supports commands to add tasks, delete tasks, list tasks, mark/unmark task completion and exit.
  */
 public class B33PBOP {
@@ -27,7 +35,7 @@ public class B33PBOP {
     private final TaskList MY_TASKS; // List of tasks managed by the bot
 
     /**
-     * Main entry point of B33PBOP.
+     * Main entry point of B33PBOP.ui.B33PBOP.
      * Prints greetings and starts command processing.
      * @param args Command-line arguments
      */

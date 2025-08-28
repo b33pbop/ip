@@ -1,3 +1,11 @@
+package B33PBOP.command;
+
+import B33PBOP.storage.Storage;
+import B33PBOP.task.TaskList;
+import B33PBOP.task.Task;
+import B33PBOP.exception.BotException;
+import B33PBOP.ui.UI;
+
 import java.io.IOException;
 
 public class AddTaskCommand implements CommandExecutor {

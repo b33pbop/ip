@@ -1,3 +1,8 @@
+package B33PBOP.task;
+
+import B33PBOP.exception.BotException;
+import B33PBOP.exception.InvalidArgumentException;
+
 public abstract class Task {
     private boolean completeStatus = false;
     private final String taskName;

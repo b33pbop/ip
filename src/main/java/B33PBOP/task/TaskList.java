@@ -1,3 +1,9 @@
+package B33PBOP.task;
+
+import B33PBOP.exception.BotException;
+import B33PBOP.exception.InvalidArgumentException;
+import B33PBOP.exception.TaskListIndexOutOfBoundException;
+
 import java.util.ArrayList;
 import java.io.File;
 import java.io.IOException;
@@ -20,7 +26,7 @@ public class TaskList {
     /**
      * Creates a new task based on the given task description and adds it to the task list.
      * @param taskDescription Description of the task to be added.
-     * @return A new Task object.
+     * @return A new B33PBOP.task.Task object.
      * @throws BotException If the task creation fails.
      */
     public Task addTask(String taskDescription) throws BotException {
@@ -33,7 +39,7 @@ public class TaskList {
     /**
      * Deletes a task based on its ID from the task list.
      * @param taskId 1-based index of the task to delete.
-     * @return The deleted Task object.
+     * @return The deleted B33PBOP.task.Task object.
      * @throws BotException If the task is empty or the taskId is invalid.
      */
     public Task deleteTask(int taskId) throws BotException {
@@ -45,7 +51,7 @@ public class TaskList {
         if (taskId > myTasks.size()) {
             throw new InvalidArgumentException("That task don't exist, do you even know what you added??\n");
         } else if (taskId < 1) {
-            throw new InvalidArgumentException("Are you drunk? Task " + taskId + "?\n");
+            throw new InvalidArgumentException("Are you drunk? B33PBOP.task.Task " + taskId + "?\n");
         } else {
             return myTasks.remove(taskIdx);
         }

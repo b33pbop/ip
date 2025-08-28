@@ -44,7 +44,7 @@ public class TaskFactory {
             }
 
         default:
-            throw new InvalidCommandException("I have zero clue what you are trying to say\n");
+            throw new InvalidCommandException("I have zero clue what you are trying to say nig\n");
         }
     }
 }

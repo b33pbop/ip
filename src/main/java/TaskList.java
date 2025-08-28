@@ -114,6 +114,11 @@ public class TaskList {
 
     private Task parseTaskFromStorage(String line) throws BotException {
         String[] parts = line.split(" \\| ");
+
+        if (parts.length < 3) {
+            throw new BotException("Corrupted task in file: " + line);
+        }
+
         String type = parts[0].strip();
         boolean isComplete = parts[1].strip().equals("[X]");
         String description = parts[2].strip();
@@ -136,8 +141,8 @@ public class TaskList {
 
         case "E":
             String dateRange = parts[3].strip();
-            String from = dateRange.split("-")[0];
-            String to = dateRange.split("-")[1];
+            String from = dateRange.split(" to ")[0];
+            String to = dateRange.split(" to ")[1];
             Task eventTask = new EventTask(description, from, to);
             if (isComplete) {
                 eventTask.markTaskComplete();

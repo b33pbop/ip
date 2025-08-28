@@ -30,7 +30,7 @@ for %%f in (tests\*_input.txt) do (
 
     @REM print current testing file for debugging
     echo Running test %%f...
-    java -classpath ..\bin B33PBOP < "!inputFile!" > "!actualFile!"
+    java -classpath ..\bin B33PBOP.ui.B33PBOP < "!inputFile!" > "!actualFile!"
     REM compare the output to the expected output
     FC "!actualFile!" "!expectedFile!"
     @REM new line so its easier to read

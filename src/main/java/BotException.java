@@ -27,3 +27,9 @@ class TaskListIndexOutOfBoundException extends BotException {
         super(msg);
     }
 }
+
+class InvalidEventEndDateException extends BotException {
+    public InvalidEventEndDateException(String msg) {
+        super(msg);
+    }
+}

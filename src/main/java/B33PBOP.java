@@ -106,6 +106,11 @@ public class B33PBOP {
 
                 case DELETE:
                     deleteTaskResponse(arg);
+                    try {
+                        storage.updateStorage(myTasks.getAllTasks());
+                    } catch (IOException e) {
+                        System.out.println(e.getMessage());
+                    }
                     break;
 
                 default:

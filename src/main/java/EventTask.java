@@ -5,6 +5,8 @@ import java.time.format.DateTimeParseException;
 public class EventTask extends Task {
     private static final DateTimeFormatter DISPLAY_FORMAT =
             DateTimeFormatter.ofPattern("MMM d yyyy HH:mm");
+    private static final DateTimeFormatter STORAGE_FORMAT =
+            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     private LocalDateTime from;
     private LocalDateTime to;
 
@@ -35,10 +37,10 @@ public class EventTask extends Task {
 
     @Override
     public String toSaveFormat() {
-        return "D | "
+        return "E | "
                 + super.printCompleteStatus() + "| "
                 + getTaskName() + " | "
-                + this.from.format(DISPLAY_FORMAT) + "-" + this.to.format(DISPLAY_FORMAT);
+                + this.from.format(STORAGE_FORMAT) + " to " + this.to.format(STORAGE_FORMAT);
     }
 
     @Override

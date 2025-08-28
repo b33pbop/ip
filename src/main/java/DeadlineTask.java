@@ -5,14 +5,14 @@ import java.time.format.DateTimeParseException;
 public class DeadlineTask extends Task{
     private static final DateTimeFormatter DISPLAY_FORMAT =
             DateTimeFormatter.ofPattern("MMM d yyyy");
-    private LocalDate deadline;
+    private final LocalDate DEADLINE;
 
     public DeadlineTask(String taskName, String deadline) {
         super(taskName);
         try {
-            this.deadline = LocalDate.parse(deadline);
+            this.DEADLINE = LocalDate.parse(deadline);
         } catch (DateTimeParseException e) {
-            System.out.println("Invalid date format: " + deadline);
+            throw new IllegalArgumentException("Invalid date format for deadline: " + deadline);
         }
     }
 
@@ -26,14 +26,14 @@ public class DeadlineTask extends Task{
         return "D | "
                 + super.printCompleteStatus() + "| "
                 + getTaskName() + " | "
-                + this.deadline.format(DISPLAY_FORMAT);
+                + this.DEADLINE;
     }
 
     @Override
     public String toString() {
         return super.toString()
                 + " (by: "
-                + this.deadline.format(DISPLAY_FORMAT)
+                + this.DEADLINE.format(DISPLAY_FORMAT)
                 + ")";
     }
 }

@@ -12,7 +12,7 @@ public class UI {
      */
     public void showGreetResponse() {
         String greetings = HORIZONTAL_LINE + "\n"
-                + "I'm B33PBOP.ui.B33PBOP...\n"
+                + "I'm B33PBOP\n"
                 + "What do you want?\n"
                 + HORIZONTAL_LINE + "\n";
         System.out.println(greetings);
@@ -73,11 +73,9 @@ public class UI {
 
     /**
      * Prints the bot's response when the DELETE command is executed.
-     * @param taskDescription Description of the task to be deleted.
      * @throws BotException If the task deletion fails.
      */
-    public void showDeleteTaskResponse(String taskDescription, TaskList myTasks) throws BotException {
-        Task task = myTasks.deleteTask(Integer.parseInt(taskDescription));
+    public void showDeleteTaskResponse(Task task) throws BotException {
         String response = HORIZONTAL_LINE + "\n"
                 + "Thank god, you should really keep deleting tasks:\n"
                 + "- " + task + "\n"

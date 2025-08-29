@@ -38,11 +38,16 @@ public class TaskList {
 
     /**
      * Deletes a task based on its ID from the task list.
-     * @param taskId 1-based index of the task to delete.
      * @return The deleted B33PBOP.task.Task object.
      * @throws BotException If the task is empty or the taskId is invalid.
      */
-    public Task deleteTask(int taskId) throws BotException {
+    public Task deleteTask(String taskDescription) throws BotException {
+        String[] input = taskDescription.split(" ");
+        if (input.length > 2) {
+            throw new InvalidArgumentException("Slow down buddy one at a time\n");
+        }
+
+        int taskId = Integer.parseInt(input[1].trim());
         int taskIdx = taskId - 1;
         if (myTasks.isEmpty()) {
             throw new TaskListIndexOutOfBoundException("Your list is literally empty\n");

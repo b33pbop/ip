@@ -1,5 +1,8 @@
 package B33PBOP.task;
 
+import B33PBOP.exception.BotException;
+import B33PBOP.exception.InvalidArgumentException;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -9,12 +12,12 @@ public class DeadlineTask extends Task{
             DateTimeFormatter.ofPattern("MMM d yyyy");
     private final LocalDate DEADLINE;
 
-    public DeadlineTask(String taskName, String deadline) {
+    public DeadlineTask(String taskName, String deadline) throws BotException {
         super(taskName);
         try {
             this.DEADLINE = LocalDate.parse(deadline);
         } catch (DateTimeParseException e) {
-            throw new IllegalArgumentException("Invalid date format for deadline: " + deadline);
+            throw new InvalidArgumentException("Invalid date format for deadline: " + deadline +"\n");
         }
     }
 

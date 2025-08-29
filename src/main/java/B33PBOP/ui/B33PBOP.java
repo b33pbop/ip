@@ -91,7 +91,6 @@ public class B33PBOP {
                 // Use the COMMAND_MAP to get the executor
                 CommandExecutor executor = COMMAND_MAP.get(command);
                 if (executor != null) {
-                    System.out.println(input);
                     isExit = executor.execute(input);
                 } else {
                     throw new InvalidCommandException("What even is '" + input + "'?\n");

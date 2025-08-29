@@ -1,5 +1,8 @@
 package B33PBOP.util;
 
+import B33PBOP.exception.BotException;
+import B33PBOP.exception.InvalidArgumentException;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -9,10 +12,9 @@ public class DateTimeParser {
             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"),
             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"),
             DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"),
-            DateTimeFormatter.ofPattern("MMM d yyyy HH:mm"),
     };
 
-    public static LocalDateTime parseDateTime(String dateTime) {
+    public static LocalDateTime parseDateTime(String dateTime) throws BotException {
         for (DateTimeFormatter fmt : SUPPORTED_DATETIME_FORMATS) {
             try {
                 return LocalDateTime.parse(dateTime, fmt);
@@ -20,10 +22,10 @@ public class DateTimeParser {
                 // continue trying other formats
             }
         }
-        throw new IllegalArgumentException("Invalid date/time format: " + dateTime);
+        throw new InvalidArgumentException("Invalid date/time format: " + dateTime + "\n");
     }
 
-    public static LocalDateTime combineDateAndTime(String date, String time) {
+    public static LocalDateTime combineDateAndTime(String date, String time) throws BotException {
         return parseDateTime(date + " " + time);
     }
 }

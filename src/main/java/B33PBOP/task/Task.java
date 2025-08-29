@@ -39,6 +39,6 @@ public abstract class Task {
 
     @Override
     public String toString() {
-        return printCompleteStatus() + " " + getTaskName();
+        return printCompleteStatus() + getTaskName();
     }
 }

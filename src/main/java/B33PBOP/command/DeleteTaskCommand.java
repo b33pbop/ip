@@ -20,14 +20,14 @@ public class DeleteTaskCommand implements CommandExecutor {
 
     @Override
     public boolean execute(String taskDescription) throws BotException {
-        Task newTask = this.TASK_LIST.addTask(taskDescription);
-        UI.showAddTaskResponse(newTask);
+        Task newTask = this.TASK_LIST.deleteTask(taskDescription);
+        UI.showDeleteTaskResponse(newTask);
         try {
             STORAGE.updateStorage(TASK_LIST.getAllTasks());
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
-        UI.showDeleteTaskResponse(taskDescription, TASK_LIST);
+
         return true;
     }
 }

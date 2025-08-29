@@ -32,7 +32,7 @@ public class EventTask extends Task {
             }
 
         } catch (DateTimeParseException e) {
-            System.out.println("Invalid date format");
+            System.out.println("Invalid date format\n");
         }
     }
 

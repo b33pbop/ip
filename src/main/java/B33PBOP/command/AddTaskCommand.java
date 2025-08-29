@@ -21,9 +21,7 @@ public class AddTaskCommand implements CommandExecutor {
 
     @Override
     public boolean execute(String taskDescription) throws BotException {
-        System.out.println("This is task description: " + taskDescription);
         Task newTask = this.TASK_LIST.addTask(taskDescription);
-        System.out.println("This is new task: " + newTask);
         UI.showAddTaskResponse(newTask);
         try {
             STORAGE.updateStorage(this.TASK_LIST.getAllTasks());

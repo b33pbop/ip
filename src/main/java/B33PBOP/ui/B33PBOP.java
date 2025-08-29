@@ -85,15 +85,11 @@ public class B33PBOP {
             String input = sc.nextLine().trim();
             String[] inputParts = input.split(" ", 2);
             String cmdStr = inputParts[0].trim();
-//            String arg = (inputParts.length > 1) ? inputParts[1] : "";
 
             try {
                 Command command = parseCommand(cmdStr);
-
-                System.out.println(command);
                 // Use the COMMAND_MAP to get the executor
                 CommandExecutor executor = COMMAND_MAP.get(command);
-                System.out.println(executor);
                 if (executor != null) {
                     System.out.println(input);
                     isExit = executor.execute(input);

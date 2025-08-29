@@ -1,14 +1,13 @@
 package B33PBOP.storage;
 
 import B33PBOP.task.Task;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
 /**
- * B33PBOP.storage.Storage handles storage for B33PBOP.ui.B33PBOP.
+ * Storage handles storage for B33PBOP.
  * On first usage, it creates a new DIRECTORY with a file B33PBOP.ui.B33PBOP.txt which stores tasks in String format.
  * Subsequent usage overwrites the existing file to update storage.
  */

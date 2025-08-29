@@ -4,6 +4,9 @@ import B33PBOP.task.TaskList;
 import B33PBOP.task.Task;
 import B33PBOP.exception.BotException;
 
+/**
+ * UI class handles communication between B33PBOP's functionality and user interface.
+ */
 public class UI {
     private final String HORIZONTAL_LINE = "_".repeat(75);
 

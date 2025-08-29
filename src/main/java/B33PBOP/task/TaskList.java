@@ -3,13 +3,16 @@ package B33PBOP.task;
 import B33PBOP.exception.BotException;
 import B33PBOP.exception.InvalidArgumentException;
 import B33PBOP.exception.TaskListIndexOutOfBoundException;
-
 import java.util.ArrayList;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * TaskList handles temporary storage of tasks user added.
+ * It handles task addition, deletion, mark task complete, unmark task complete and loading tasks from storage.
+ */
 public class TaskList {
     // List of tasks managed by the bot
     private final List<Task> myTasks = new ArrayList<>();
@@ -26,7 +29,7 @@ public class TaskList {
     /**
      * Creates a new task based on the given task description and adds it to the task list.
      * @param taskDescription Description of the task to be added.
-     * @return A new B33PBOP.task.Task object.
+     * @return A new Task object.
      * @throws BotException If the task creation fails.
      */
     public Task addTask(String taskDescription) throws BotException {
@@ -38,7 +41,7 @@ public class TaskList {
 
     /**
      * Deletes a task based on its ID from the task list.
-     * @return The deleted B33PBOP.task.Task object.
+     * @return The deleted Task object.
      * @throws BotException If the task is empty or the taskId is invalid.
      */
     public Task deleteTask(String taskDescription) throws BotException {
@@ -56,7 +59,7 @@ public class TaskList {
         if (taskId > myTasks.size()) {
             throw new InvalidArgumentException("That task don't exist, do you even know what you added??\n");
         } else if (taskId < 1) {
-            throw new InvalidArgumentException("Are you drunk? B33PBOP.task.Task " + taskId + "?\n");
+            throw new InvalidArgumentException("Are you drunk? B33PBOP " + taskId + "?\n");
         } else {
             return myTasks.remove(taskIdx);
         }
@@ -107,6 +110,11 @@ public class TaskList {
         return "You really need help remembering all these?\n" + sb;
     }
 
+    /**
+     * Loads task from Storage into a TaskList instance.
+     * @param file txt file that stores user tasks.
+     * @throws IOException If data is corrupted.
+     */
     public void loadTasks(File file) throws IOException{
         if (!file.exists()) {
             return;

@@ -2,16 +2,25 @@ package B33PBOP.task;
 
 import B33PBOP.exception.BotException;
 import B33PBOP.exception.InvalidArgumentException;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-public class DeadlineTask extends Task{
+/**
+ * DeadlineTask is a subclass of Task.
+ * The class handles creation of a deadline task when user uses the deadline command.
+ */
+public class DeadlineTask extends Task {
     private static final DateTimeFormatter DISPLAY_FORMAT =
             DateTimeFormatter.ofPattern("MMM d yyyy");
     private final LocalDate DEADLINE;
 
+    /**
+     * Deadline Task Constructor
+     * @param taskName Name of the task
+     * @param deadline Deadline of the task
+     * @throws BotException If there is an invalid argument
+     */
     public DeadlineTask(String taskName, String deadline) throws BotException {
         super(taskName);
         try {

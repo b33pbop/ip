@@ -5,10 +5,12 @@ import B33PBOP.exception.BotException;
 import B33PBOP.exception.InvalidCommandException;
 import B33PBOP.storage.Storage;
 import B33PBOP.task.TaskList;
+
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Scanner;
 import java.util.Map;
+import java.util.Scanner;
+
 
 /**
  * B33PBOP is a command-line task management bot.

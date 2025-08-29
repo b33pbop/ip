@@ -1,8 +1,7 @@
 package B33PBOP.ui;
 
-import B33PBOP.task.TaskList;
 import B33PBOP.task.Task;
-import B33PBOP.exception.BotException;
+import B33PBOP.task.TaskList;
 
 /**
  * UI class handles communication between B33PBOP's functionality and user interface.
@@ -76,9 +75,8 @@ public class UI {
 
     /**
      * Prints the bot's response when the DELETE command is executed.
-     * @throws BotException If the task deletion fails.
      */
-    public void showDeleteTaskResponse(Task task) throws BotException {
+    public void showDeleteTaskResponse(Task task) {
         String response = HORIZONTAL_LINE + "\n"
                 + "Thank god, you should really keep deleting tasks:\n"
                 + "- " + task + "\n"

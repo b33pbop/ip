@@ -1,8 +1,8 @@
 package B33PBOP.command;
 
 import B33PBOP.exception.BotException;
-import B33PBOP.ui.UI;
 import B33PBOP.task.TaskList;
+import B33PBOP.ui.UI;
 
 /**
  * MarkTaskCommand implements the CommandExecutor interface and handles the mark command.

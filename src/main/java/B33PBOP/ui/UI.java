@@ -85,6 +85,18 @@ public class UI {
     }
 
     /**
+     * Prints the bot's response when the FIND command is executed.
+     * @param foundTasksString Tasks that matches keyword of user input in String format.
+     */
+    public void showFindTaskResponse(String foundTasksString) {
+        String response = HORIZONTAL_LINE + "\n"
+                + "You are really bossy you know that\n"
+                + foundTasksString + "\n"
+                + HORIZONTAL_LINE + "\n";
+        System.out.println(response);
+    }
+
+    /**
      * Prints the bot's response when there is an error with input
      * @param errorMessage Error message when exception is caught
      */

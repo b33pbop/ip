@@ -1,6 +1,7 @@
 package B33PBOP.task;
 
 import B33PBOP.exception.BotException;
+import B33PBOP.exception.IncompleteArgumentException;
 import B33PBOP.exception.InvalidArgumentException;
 import B33PBOP.exception.TaskListIndexOutOfBoundException;
 
@@ -110,6 +111,30 @@ public class TaskList {
             sb.append(task);
         }
         return "You really need help remembering all these?\n" + sb;
+    }
+
+    /**
+     * Finds all tasks that matches the given search keyword.
+     * @param search User input, find work etc.
+     * @return An array of tasks with descriptions matching the given keyword.
+     * @throws BotException If user input is incomplete.
+     */
+    public Task[] findTasks(String search) throws BotException {
+        String[] input = search.split(" ", 2);
+        if (input.length < 2) {
+            throw new IncompleteArgumentException("Find what...\n");
+        }
+        String keyword = input[1].trim();
+        Task[] taskMatches = new Task[myTasks.size()];
+        int counter = 0;
+        for (Task task : myTasks) {
+            if (task.existsInTaskDescription(keyword)) {
+                taskMatches[counter] = task;
+                counter++;
+            }
+        }
+
+        return taskMatches;
     }
 
     /**

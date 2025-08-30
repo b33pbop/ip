@@ -29,6 +29,7 @@ public class B33PBOP {
         UNMARK,
         DELETE,
         LIST,
+        FIND,
         BYE
     }
     private final Map<Command, CommandExecutor> COMMAND_MAP = new HashMap<>();
@@ -68,6 +69,7 @@ public class B33PBOP {
         COMMAND_MAP.put(Command.DELETE, new DeleteTaskCommand(MY_TASKS, UI, storage));
         COMMAND_MAP.put(Command.MARK, new MarkTaskCommand(MY_TASKS, UI));
         COMMAND_MAP.put(Command.UNMARK, new UnmarkTaskCommand(MY_TASKS, UI));
+        COMMAND_MAP.put(Command.FIND, new FindTasksCommand(MY_TASKS, UI));
     }
     
     public void start() {

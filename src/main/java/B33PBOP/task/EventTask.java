@@ -56,6 +56,18 @@ public class EventTask extends Task {
     }
 
     @Override
+    public boolean existsInTaskDescription(String keyword) {
+        if (keyword == null || keyword.isEmpty()) {
+            return false;
+        }
+        String lowerKeyword = keyword.toLowerCase();
+        return getTaskName().toLowerCase().contains(lowerKeyword)
+                || from.format(DISPLAY_FORMAT).toLowerCase().contains(lowerKeyword)
+                || to.format(DISPLAY_FORMAT).toLowerCase().contains(lowerKeyword);
+    }
+
+
+    @Override
     public String toSaveFormat() {
         return "E | "
                 + super.printCompleteStatus() + "| "

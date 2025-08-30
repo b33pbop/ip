@@ -38,6 +38,33 @@ public class DeadlineTask extends Task {
     }
 
     @Override
+    public boolean existsInTaskDescription(String keyword) {
+        if (keyword == null || keyword.isEmpty()) {
+            return false;
+        }
+
+        if (getTaskName().toLowerCase().contains(keyword.toLowerCase())) {
+            return true;
+        }
+
+        String deadlineString = this.DEADLINE.format(DISPLAY_FORMAT).toLowerCase();
+        if (deadlineString.contains(keyword.toLowerCase())) {
+            return true;
+        }
+
+        try {
+            LocalDate parsedDate = LocalDate.parse(keyword);
+            if (parsedDate.equals(this.DEADLINE)) {
+                return true;
+            }
+        } catch (DateTimeParseException e) {
+            // ignore
+        }
+
+        return false;
+    }
+
+    @Override
     public String toSaveFormat() {
         return "D | "
                 + super.printCompleteStatus() + "| "

@@ -35,6 +35,13 @@ public abstract class Task {
         return this.taskName;
     }
 
+    /**
+     * Checks if a keyword exists in a task description.
+     * @param keyword What the user is searching for.
+     * @return True if keyword exists else false.
+     */
+    public abstract boolean existsInTaskDescription(String keyword);
+
     public abstract String toSaveFormat();
 
     @Override

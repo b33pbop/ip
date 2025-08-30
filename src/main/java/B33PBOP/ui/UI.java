@@ -2,7 +2,6 @@ package B33PBOP.ui;
 
 import B33PBOP.task.TaskList;
 import B33PBOP.task.Task;
-import B33PBOP.exception.BotException;
 
 public class UI {
     private final String HORIZONTAL_LINE = "_".repeat(75);
@@ -73,12 +72,23 @@ public class UI {
 
     /**
      * Prints the bot's response when the DELETE command is executed.
-     * @throws BotException If the task deletion fails.
      */
-    public void showDeleteTaskResponse(Task task) throws BotException {
+    public void showDeleteTaskResponse(Task task) {
         String response = HORIZONTAL_LINE + "\n"
                 + "Thank god, you should really keep deleting tasks:\n"
                 + "- " + task + "\n"
+                + HORIZONTAL_LINE + "\n";
+        System.out.println(response);
+    }
+
+    /**
+     * Prints the bot's response when the FIND command is executed.
+     * @param foundTasksString Tasks that matches keyword of user input in String format.
+     */
+    public void showFindTaskResponse(String foundTasksString) {
+        String response = HORIZONTAL_LINE + "\n"
+                + "You are really bossy you know that\n"
+                + foundTasksString + "\n"
                 + HORIZONTAL_LINE + "\n";
         System.out.println(response);
     }

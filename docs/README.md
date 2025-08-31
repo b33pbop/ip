@@ -1,4 +1,4 @@
-# B33PBOP.ui.B33PBOP User Guide
+# chatbot.ui.chatbot User Guide
 
 // Update the title above to match the actual product name
 

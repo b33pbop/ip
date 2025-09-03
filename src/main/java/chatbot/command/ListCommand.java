@@ -21,8 +21,7 @@ public class ListCommand implements CommandExecutor {
     }
 
     @Override
-    public boolean execute(String arg) {
-        ui.showListResponse(this.taskList);
-        return true;
+    public String execute(String arg) {
+        return ui.listResponse(this.taskList);
     }
 }

@@ -13,8 +13,7 @@ public class ByeCommand implements CommandExecutor {
     }
 
     @Override
-    public boolean execute(String arg) {
-        this.ui.showByeResponse();
-        return false;
+    public String execute(String arg) {
+        return this.ui.byeResponse();
     }
 }

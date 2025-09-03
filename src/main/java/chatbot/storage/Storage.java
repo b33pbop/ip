@@ -23,12 +23,9 @@ public class Storage {
      */
     public Storage() throws IOException {
         File directory = new File("data");
-        boolean makeDirectoryResult = directory.mkdirs();
-        if (!makeDirectoryResult) {
-            throw new IOException("Failed to create directory");
-        }
+        directory.mkdirs();
 
-        storageFile = new File(directory, "B33PBOP.ui.B33PBOP.txt");
+        storageFile = new File(directory, "b33pbop.txt");
         if (!storageFile.exists()) {
             boolean isCreated = storageFile.createNewFile();
             if (!isCreated) {

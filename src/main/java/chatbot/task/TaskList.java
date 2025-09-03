@@ -64,7 +64,7 @@ public class TaskList {
         if (taskId > myTasks.size()) {
             throw new InvalidArgumentException("That task don't exist, do you even know what you added??\n");
         } else if (taskId < 1) {
-            throw new InvalidArgumentException("Are you drunk? B33PBOP " + taskId + "?\n");
+            throw new InvalidArgumentException("Are you drunk? Task " + taskId + "?\n");
         } else {
             return myTasks.remove(taskIdx);
         }
@@ -77,7 +77,7 @@ public class TaskList {
      */
     public void handleMarkTaskComplete(String taskIdx) throws BotException {
         try {
-            int taskIndex = Integer.parseInt(taskIdx) - 1;
+            int taskIndex = Integer.parseInt(taskIdx.strip()) - 1;
             Task task = myTasks.get(taskIndex);
             task.markTaskComplete();
         } catch (NumberFormatException | IndexOutOfBoundsException e) {

@@ -41,9 +41,8 @@ public class FindTasksCommand implements CommandExecutor {
     }
 
     @Override
-    public boolean execute(String search) throws BotException {
+    public String execute(String search) throws BotException {
         Task[] matchingTasks = taskList.findTasks(search);
-        ui.showFindTaskResponse(parseTaskArray(matchingTasks));
-        return true;
+        return ui.findTaskResponse(parseTaskArray(matchingTasks));
     }
 }

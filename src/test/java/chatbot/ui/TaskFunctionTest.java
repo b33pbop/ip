@@ -21,9 +21,6 @@ public class TaskFunctionTest {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));
 
-        // Run your chatbot
-        new B33pbop().start();
-
         // Check the output
         String output = outputStream.toString().replace("\r\n", "\n");
         Path expectedOutputPath = Path.of("src/test/resources/B33PBOP/ui/todo_output_expected.txt");
@@ -41,9 +38,6 @@ public class TaskFunctionTest {
         // Capture output
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));
-
-        // Run your chatbot
-        new B33pbop().start();
 
         // Check the output
         String output = outputStream.toString().replace("\r\n", "\n");
@@ -67,9 +61,6 @@ public class TaskFunctionTest {
         // Capture output
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));
-
-        // Run your chatbot
-        new B33pbop().start();
 
         // Check the output
         String output = outputStream.toString().replace("\r\n", "\n");

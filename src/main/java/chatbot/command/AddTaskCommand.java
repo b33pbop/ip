@@ -30,14 +30,20 @@ public class AddTaskCommand implements CommandExecutor {
     }
 
     @Override
-    public boolean execute(String taskDescription) throws BotException {
+    public String execute(String taskDescription) throws BotException {
         Task newTask = this.taskList.addTask(taskDescription);
-        ui.showAddTaskResponse(newTask);
-        try {
-            storage.updateStorage(this.taskList.getAllTasks());
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
+        String response;
+        if (this.storage != null) {
+            try {
+                storage.updateStorage(this.taskList.getAllTasks());
+            } catch (IOException e) {
+                response = "I didn't quite catch that, less work for me I guess";
+                return response;
+            }
+        } else {
+            return "I can't find my storage so I basically forgot what you just said";
         }
-        return true;
+        response = ui.addTaskResponse(newTask);
+        return response;
     }
 }

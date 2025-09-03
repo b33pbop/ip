@@ -3,7 +3,6 @@ package chatbot.ui;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
 
 import chatbot.command.AddTaskCommand;
 import chatbot.command.ByeCommand;
@@ -17,9 +16,6 @@ import chatbot.exception.BotException;
 import chatbot.exception.InvalidCommandException;
 import chatbot.storage.Storage;
 import chatbot.task.TaskList;
-
-
-
 
 /**
  * B33PBOP is a command-line task management bot.
@@ -37,14 +33,14 @@ public class B33pbop {
         this.ui = new UI();
         this.myTasks = new TaskList();
 
-        Storage storage = null;
+        Storage tempStorage;
         try {
-            storage = new Storage();
-            myTasks.loadTasks(storage.getStorageFile());
+            tempStorage = new Storage();
+            myTasks.loadTasks(tempStorage.getStorageFile());
         } catch (IOException e) {
-            System.out.println("Error initializing storage: " + e.getMessage());
+            tempStorage = null;
         }
-
+        Storage storage = tempStorage;
         registerCommands(storage);
     }
     /**
@@ -61,14 +57,6 @@ public class B33pbop {
         FIND,
         BYE
     }
-    /**
-     * Main entry point of B33PBOP.
-     * Prints greetings and starts command processing.
-     * @param args Command-line arguments
-     */
-    public static void main(String[] args) {
-        new B33pbop().start();
-    }
 
     private void registerCommands(Storage storage) {
         commandMap.put(Command.BYE, new ByeCommand(ui));
@@ -77,43 +65,38 @@ public class B33pbop {
         commandMap.put(Command.DEADLINE, new AddTaskCommand(myTasks, ui, storage));
         commandMap.put(Command.EVENT, new AddTaskCommand(myTasks, ui, storage));
         commandMap.put(Command.DELETE, new DeleteTaskCommand(myTasks, ui, storage));
-        commandMap.put(Command.MARK, new MarkTaskCommand(myTasks, ui));
-        commandMap.put(Command.UNMARK, new UnmarkTaskCommand(myTasks, ui));
+        commandMap.put(Command.MARK, new MarkTaskCommand(myTasks, ui, storage));
+        commandMap.put(Command.UNMARK, new UnmarkTaskCommand(myTasks, ui, storage));
         commandMap.put(Command.FIND, new FindTasksCommand(myTasks, ui));
     }
 
     /**
-     * Starts the bot
+     * Retrieves the greeting String from the ui
+     * @return String with a greet message
      */
-    public void start() {
-        this.ui.showGreetResponse();
-        runCommand();
+    public String getGreeting() {
+        return ui.greetResponse();
     }
 
     /**
-     * Reads and processes user commands in a loop until the BYE command is entered.
-     * Commands are parsed and delegated to corresponding response methods.
+     * Retrieves bot response to user commands
+     * @param input User input into the chatbot
+     * @return String response based on user input
      */
-    public void runCommand() {
-        Scanner sc = new Scanner(System.in);
-        boolean isExit = true;
-        while (isExit) {
-            String input = sc.nextLine().trim();
-            String[] inputParts = input.split(" ", 2);
-            String cmdStr = inputParts[0].trim();
-
-            try {
-                Command command = parseCommand(cmdStr);
-                // Use the commandMap to get the executor
-                CommandExecutor executor = commandMap.get(command);
-                if (executor != null) {
-                    isExit = executor.execute(input);
-                } else {
-                    throw new InvalidCommandException("What even is '" + input + "'?\n");
-                }
-            } catch (BotException e) {
-                ui.showRunErrorMessage(e.getMessage());
+    public String getResponse(String input) {
+        String[] inputParts = input.split(" ", 2);
+        String cmdStr = inputParts[0].trim();
+        try {
+            Command command = parseCommand(cmdStr);
+            // Use the commandMap to get the executor
+            CommandExecutor executor = commandMap.get(command);
+            if (executor != null) {
+                return executor.execute(input);
+            } else {
+                return "What even is '" + input + "'?\n";
             }
+        } catch (BotException e) {
+            return ui.runErrorMessage(e.getMessage());
         }
     }
 

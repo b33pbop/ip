@@ -9,8 +9,8 @@ public interface CommandExecutor {
     /**
      * Executes the user commands
      * @param taskDescription User input for the task.
-     * @return Returns a boolean, true when command is non-terminating, false when command is terminating (BYE command).
+     * @return Returns a response from the bot in String format.
      * @throws BotException If there is an error with user input.
      */
-    boolean execute(String taskDescription) throws BotException;
+    String execute(String taskDescription) throws BotException;
 }

@@ -18,14 +18,17 @@ public class DeleteTaskCommand implements CommandExecutor {
 
     /**
      * Constructor, initializes class variables.
-     * @param taskList List of tasks the user has added.
-     * @param ui User interface where the responses to commands are displayed.
-     * @param storage Persistent storage for user's tasks
+     *
+     * @param taskList List of tasks the user has added; must not be null.
+     * @param ui User interface where the responses to commands are displayed; must not be null.
+     * @param storage Persistent storage for user's tasks.
      */
     public DeleteTaskCommand(TaskList taskList, UI ui, Storage storage) {
+        assert taskList != null : "TaskList must not be null";
+        assert ui != null : "UI must not be null";
         this.taskList = taskList;
         this.ui = ui;
-        this.storage = storage;
+        this.storage = storage; // Storage might be null (problem is handled later in the code), no assertions needed
     }
 
     @Override

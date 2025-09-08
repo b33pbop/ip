@@ -8,7 +8,13 @@ import chatbot.ui.UI;
 public class ByeCommand implements CommandExecutor {
     private final UI ui;
 
+    /**
+     * Constructor, initializes a ByeCommand
+     *
+     * @param ui Ui of the application; must not be null.
+     */
     public ByeCommand(UI ui) {
+        assert ui != null : "UI must not be null";
         this.ui = ui;
     }
 

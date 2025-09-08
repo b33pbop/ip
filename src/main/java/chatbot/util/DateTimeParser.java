@@ -22,6 +22,7 @@ public class DateTimeParser {
 
     /**
      * Main method handling parsing of datetime for event tasks.
+     *
      * @param dateTime Datetime in String.
      * @return LocalDateTime object.
      * @throws BotException If input format is not part of the array of supported datetime formats.
@@ -39,6 +40,7 @@ public class DateTimeParser {
 
     /**
      * Combines date and time together into a single datetime instance.
+     *
      * @param date Date following the supported datetime format.
      * @param time Time in HH:mm:ss.
      * @return Merged LocalDateTime object.

@@ -27,7 +27,7 @@ public class B33pbop {
     private final TaskList myTasks; // List of tasks managed by the bot
 
     /**
-     * Constructor for B33Pbop, initializes ui, task list and storage
+     * Constructor for B33pbop, initializes ui, task list and storage.
      */
     public B33pbop() {
         this.ui = new UI();
@@ -59,6 +59,8 @@ public class B33pbop {
     }
 
     private void registerCommands(Storage storage) {
+        assert ui != null && myTasks != null : "UI and TaskList must be initialized";
+
         commandMap.put(Command.BYE, new ByeCommand(ui));
         commandMap.put(Command.LIST, new ListCommand(myTasks, ui));
         commandMap.put(Command.TODO, new AddTaskCommand(myTasks, ui, storage));
@@ -71,30 +73,34 @@ public class B33pbop {
     }
 
     /**
-     * Retrieves the greeting String from the ui
-     * @return String with a greet message
+     * Retrieves the greeting String from the ui.
+     *
+     * @return String with a greet message.
      */
     public String getGreeting() {
         return ui.greetResponse();
     }
 
     /**
-     * Retrieves bot response to user commands
-     * @param input User input into the chatbot
-     * @return String response based on user input
+     * Retrieves bot response to user commands.
+     *
+     * @param input User input into the chatbot; must not be null or empty.
+     * @return String response based on user input.
      */
     public String getResponse(String input) {
+        assert input != null && !input.isEmpty() : "Input must not be null or empty";
+
         String[] inputParts = input.split(" ", 2);
         String cmdStr = inputParts[0].trim();
         try {
             Command command = parseCommand(cmdStr);
             // Use the commandMap to get the executor
             CommandExecutor executor = commandMap.get(command);
-            if (executor != null) {
-                return executor.execute(input);
-            } else {
+            if (executor == null) {
                 return "What even is '" + input + "'?\n";
             }
+            return executor.execute(input);
+
         } catch (BotException e) {
             return ui.runErrorMessage(e.getMessage());
         }
@@ -102,11 +108,13 @@ public class B33pbop {
 
     /**
      * Converts a string command into the corresponding Command enum.
-     * @param cmdStr The string representation of the command.
+     *
+     * @param cmdStr The string representation of the command; must not be null or empty.
      * @return The corresponding enum value of the cmdStr.
      * @throws InvalidCommandException If the string does not match any valid command.
      */
     private static Command parseCommand(String cmdStr) throws InvalidCommandException {
+        assert cmdStr != null && !cmdStr.isEmpty() : "Command string cannot be null or empty";
         try {
             return Command.valueOf(cmdStr.toUpperCase());
         } catch (IllegalArgumentException e) {

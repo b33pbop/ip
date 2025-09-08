@@ -20,6 +20,7 @@ public class TaskList {
     private final List<Task> myTasks = new ArrayList<>();
 
     public Task getTask(int taskId) {
+        assert taskId > 0 && taskId <= myTasks.size() : "Task ID out of bounds";
         int taskIdx = taskId - 1;
         return myTasks.get(taskIdx);
     }
@@ -29,12 +30,14 @@ public class TaskList {
     }
 
     /**
-     * Creates a new task based on the given task description and adds it to the task list.
-     * @param taskDescription Description of the task to be added.
+     * Returns a new task based on the given task description and adds it to the task list.
+     *
+     * @param taskDescription Description of the task to be added; must not be null or empty.
      * @return A new Task object.
      * @throws BotException If the task creation fails.
      */
     public Task addTask(String taskDescription) throws BotException {
+        assert taskDescription != null && !taskDescription.isEmpty() : "Task description must not be null or empty";
         Task newTask = TaskFactory.createTask(taskDescription);
         myTasks.add(newTask);
 
@@ -42,7 +45,8 @@ public class TaskList {
     }
 
     /**
-     * Deletes a task based on its ID from the task list.
+     * Returns a deleted task based on its ID from the task list.
+     *
      * @return The deleted Task object.
      * @throws BotException If the task is empty or the taskId is invalid.
      */
@@ -69,6 +73,7 @@ public class TaskList {
 
     /**
      * Marks or unmarks a task as complete based on its index.
+     *
      * @param taskIdx 1-based index of the task to be marked/unmarked.
      * @throws BotException If index is invalid of the task does not exist.
      */
@@ -99,6 +104,7 @@ public class TaskList {
 
     /**
      * Returns a formatted string representation of all tasks in the task list.
+     *
      * @return A string that lists all tasks with their indices (1-indexed).
      */
     public String showTaskList() {
@@ -113,7 +119,8 @@ public class TaskList {
     }
 
     /**
-     * Finds all tasks that matches the given search keyword.
+     * Returns an array of tasks that matches the given search keyword.
+     *
      * @param search User input, find work etc.
      * @return An array of tasks with descriptions matching the given keyword.
      * @throws BotException If user input is incomplete.
@@ -138,6 +145,7 @@ public class TaskList {
 
     /**
      * Loads task from Storage into a TaskList instance.
+     *
      * @param file txt file that stores user tasks.
      * @throws IOException If data is corrupted.
      */

@@ -17,7 +17,8 @@ public abstract class Task {
     }
 
     /**
-     * Marks task as complete
+     * Marks task as complete.
+     *
      * @throws BotException If task is already complete
      */
     public void markTaskComplete() throws BotException {
@@ -29,7 +30,8 @@ public abstract class Task {
     }
 
     /**
-     * Unmarks task as complete
+     * Unmarks task as complete.
+     *
      * @throws BotException If task is already not marked as complete
      */
     public void unmarkTaskComplete() throws BotException {
@@ -41,10 +43,11 @@ public abstract class Task {
     }
 
     /**
-     * Prints complete status of a Task
-     * @return A string representing completion status of task
+     * Returns a String representation of the complete status of a Task.
+     *
+     * @return A string representing completion status of task.
      */
-    public String printCompleteStatus() {
+    public String stringFormatCompleteStatus() {
         return this.isComplete ? "[X] " : "[ ] ";
     }
 
@@ -53,7 +56,8 @@ public abstract class Task {
     }
 
     /**
-     * Checks if a keyword exists in a task description.
+     * Returns a true if a keyword exists in a task description.
+     *
      * @param keyword What the user is searching for.
      * @return True if keyword exists else false.
      */
@@ -63,6 +67,6 @@ public abstract class Task {
 
     @Override
     public String toString() {
-        return printCompleteStatus() + getTaskName();
+        return stringFormatCompleteStatus() + getTaskName();
     }
 }

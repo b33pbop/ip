@@ -19,13 +19,14 @@ public class DeadlineTask extends Task {
     /**
      * Deadline Task Constructor.
      *
-     * @param taskName Name of the task
-     * @param deadline Deadline of the task
-     * @throws BotException If there is an invalid argument
+     * @param taskName Name of the task; must not be null or empty.
+     * @param deadline Deadline of the task.
+     * @throws BotException If there is an invalid argument.
      */
     public DeadlineTask(String taskName, String deadline) throws BotException {
         super(taskName);
         assert taskName != null && !taskName.isEmpty() : "Task name must not be null or empty";
+
         try {
             this.deadline = LocalDate.parse(deadline);
         } catch (DateTimeParseException e) {
@@ -43,13 +44,17 @@ public class DeadlineTask extends Task {
         if (keyword == null || keyword.isEmpty()) {
             return false;
         }
+
         String keywordLowerCase = keyword.toLowerCase();
         String taskNameLowerCase = getTaskName().toLowerCase();
+
         if (taskNameLowerCase.contains(keywordLowerCase)) {
             return true;
         }
+
         assert this.deadline != null : "Deadline should not be null";
         String deadlineString = this.deadline.format(DISPLAY_FORMAT).toLowerCase();
+
         if (deadlineString.contains(keywordLowerCase)) {
             return true;
         }
@@ -60,7 +65,8 @@ public class DeadlineTask extends Task {
                 return true;
             }
         } catch (DateTimeParseException e) {
-            // ignore
+            // safely ignore as we want to match user input to existing tasks
+            // if the keyword cannot be parsed it should not be treated as datetime
         }
 
         return false;

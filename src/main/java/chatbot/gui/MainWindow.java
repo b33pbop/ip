@@ -2,7 +2,6 @@ package chatbot.gui;
 
 import chatbot.ui.B33pbop;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -19,8 +18,6 @@ public class MainWindow extends AnchorPane {
     private VBox dialogContainer;
     @FXML
     private TextField userInput;
-    @FXML
-    private Button sendButton;
 
     private B33pbop b33pbop;
 
@@ -36,9 +33,7 @@ public class MainWindow extends AnchorPane {
         b33pbop = bb;
 
         if (b33pbop != null) {
-            dialogContainer.getChildren().add(
-                    DialogBox.getBotDialog(b33pbop.getGreeting(), b33pbopImage)
-            );
+            dialogContainer.getChildren().add(DialogBox.getBotDialog(b33pbop.getGreeting(), b33pbopImage));
         }
     }
 
@@ -50,10 +45,12 @@ public class MainWindow extends AnchorPane {
     private void handleUserInput() {
         String input = userInput.getText();
         String response = b33pbop.getResponse(input);
+
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, userImage),
                 DialogBox.getBotDialog(response, b33pbopImage)
         );
+
         userInput.clear();
     }
 }

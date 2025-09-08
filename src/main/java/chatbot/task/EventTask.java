@@ -9,7 +9,6 @@ import chatbot.exception.InvalidArgumentException;
 import chatbot.exception.InvalidEventEndDateException;
 import chatbot.util.DateTimeParser;
 
-
 /**
  * EventTask is a subclass of Task.
  * The class handles creation of an event task when user uses the event command.
@@ -21,6 +20,7 @@ public class EventTask extends Task {
     // Date format when stored in Storage
     private static final DateTimeFormatter STORAGE_FORMAT =
             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
     private final LocalDateTime from;
     private final LocalDateTime to;
 
@@ -52,10 +52,17 @@ public class EventTask extends Task {
             return false;
         }
 
-        String lowerKeyword = keyword.toLowerCase();
-        return getTaskName().toLowerCase().contains(lowerKeyword)
-                || from.format(DISPLAY_FORMAT).toLowerCase().contains(lowerKeyword)
-                || to.format(DISPLAY_FORMAT).toLowerCase().contains(lowerKeyword);
+        String keywordLowerCase = keyword.toLowerCase();
+        String taskNameLowerCase = getTaskName().toLowerCase();
+        String fromLowerCase = from.format(DISPLAY_FORMAT);
+        String toLowerCase = to.format(DISPLAY_FORMAT);
+
+        boolean taskNameContainsKeyword = taskNameLowerCase.contains(keywordLowerCase);
+        boolean fromContainsKeyword = fromLowerCase.contains(keywordLowerCase);
+        boolean toContainsKeyword = toLowerCase.contains(keywordLowerCase);
+        boolean startOrEndDateContainsKeyword = fromContainsKeyword || toContainsKeyword;
+
+        return taskNameContainsKeyword || startOrEndDateContainsKeyword;
     }
 
 

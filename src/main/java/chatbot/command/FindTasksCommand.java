@@ -40,6 +40,7 @@ public class FindTasksCommand implements CommandExecutor {
         if (sb.isEmpty()) {
             return "Theres nothing";
         }
+
         return sb.toString();
     }
 

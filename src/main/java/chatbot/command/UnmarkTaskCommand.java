@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import chatbot.exception.BotException;
 import chatbot.storage.Storage;
+import chatbot.task.Task;
 import chatbot.task.TaskList;
 import chatbot.ui.UI;
 
@@ -34,17 +35,20 @@ public class UnmarkTaskCommand implements CommandExecutor {
         String[] input = taskIdx.split(" ", 2);
         this.taskList.handleUnmarkTaskComplete(input[1]);
         String response;
-        if (this.storage != null) {
-            try {
-                storage.updateStorage(this.taskList.getAllTasks());
-            } catch (IOException e) {
-                response = "I didn't quite catch that, less work for me I guess";
-                return response;
-            }
-        } else {
+
+        if (this.storage == null) {
             return "I can't find my storage so I basically forgot what you just said";
         }
-        response = ui.unmarkTaskCompleteResponse(this.taskList.getTask(Integer.parseInt(input[1])));
+        try {
+            storage.updateStorage(this.taskList.getAllTasks());
+        } catch (IOException e) {
+            response = "I didn't quite catch that, less work for me I guess";
+            return response;
+        }
+
+        int taskIdxInteger = Integer.parseInt(input[1]);
+        Task targetTask = this.taskList.getTask(taskIdxInteger);
+        response = ui.unmarkTaskCompleteResponse(targetTask);
         return response;
     }
 }

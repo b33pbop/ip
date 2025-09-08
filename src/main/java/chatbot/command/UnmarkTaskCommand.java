@@ -17,13 +17,16 @@ public class UnmarkTaskCommand implements CommandExecutor {
 
     /**
      * Constructor, initializes class constant variables.
-     * @param taskList List of tasks the user has added.
-     * @param ui User interface where the responses to commands are displayed.
+     *
+     * @param taskList List of tasks the user has added; must not be null.
+     * @param ui User interface where the responses to commands are displayed; must not be null.
      */
     public UnmarkTaskCommand(TaskList taskList, UI ui, Storage storage) {
+        assert taskList != null : "TaskList must not be null";
+        assert ui != null : "UI must not be null";
         this.taskList = taskList;
         this.ui = ui;
-        this.storage = storage;
+        this.storage = storage; // Storage might be null (problem is handled later in the code), no assertions needed
     }
 
     @Override

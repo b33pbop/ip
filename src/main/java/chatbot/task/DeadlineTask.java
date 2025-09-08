@@ -17,13 +17,15 @@ public class DeadlineTask extends Task {
     private final LocalDate deadline;
 
     /**
-     * Deadline Task Constructor
+     * Deadline Task Constructor.
+     *
      * @param taskName Name of the task
      * @param deadline Deadline of the task
      * @throws BotException If there is an invalid argument
      */
     public DeadlineTask(String taskName, String deadline) throws BotException {
         super(taskName);
+        assert taskName != null && !taskName.isEmpty() : "Task name must not be null or empty";
         try {
             this.deadline = LocalDate.parse(deadline);
         } catch (DateTimeParseException e) {
@@ -32,8 +34,8 @@ public class DeadlineTask extends Task {
     }
 
     @Override
-    public String printCompleteStatus() {
-        return "[D]" + super.printCompleteStatus();
+    public String stringFormatCompleteStatus() {
+        return "[D]" + super.stringFormatCompleteStatus();
     }
 
     @Override
@@ -41,13 +43,14 @@ public class DeadlineTask extends Task {
         if (keyword == null || keyword.isEmpty()) {
             return false;
         }
-
-        if (getTaskName().toLowerCase().contains(keyword.toLowerCase())) {
+        String keywordLowerCase = keyword.toLowerCase();
+        String taskNameLowerCase = getTaskName().toLowerCase();
+        if (taskNameLowerCase.contains(keywordLowerCase)) {
             return true;
         }
-
+        assert this.deadline != null : "Deadline should not be null";
         String deadlineString = this.deadline.format(DISPLAY_FORMAT).toLowerCase();
-        if (deadlineString.contains(keyword.toLowerCase())) {
+        if (deadlineString.contains(keywordLowerCase)) {
             return true;
         }
 
@@ -66,7 +69,7 @@ public class DeadlineTask extends Task {
     @Override
     public String toSaveFormat() {
         return "D | "
-                + super.printCompleteStatus() + "| "
+                + super.stringFormatCompleteStatus() + "| "
                 + getTaskName() + " | "
                 + this.deadline;
     }

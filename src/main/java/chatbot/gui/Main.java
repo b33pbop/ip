@@ -21,11 +21,14 @@ public class Main extends Application {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/view/MainWindow.fxml"));
             AnchorPane ap = fxmlLoader.load();
+            assert ap != null : "MainWindow.fxml failed to load or returned null";
             Scene scene = new Scene(ap);
             stage.setScene(scene);
             stage.setMinHeight(250);
             stage.setMinWidth(417);
-            fxmlLoader.<MainWindow>getController().setDuke(b33pbop);
+            MainWindow controller = fxmlLoader.getController();
+            assert controller != null : "FXML controller is null";
+            controller.setDuke(b33pbop);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

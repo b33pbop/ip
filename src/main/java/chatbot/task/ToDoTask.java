@@ -10,8 +10,8 @@ public class ToDoTask extends Task {
     }
 
     @Override
-    public String printCompleteStatus() {
-        return "[T]" + super.printCompleteStatus();
+    public String stringFormatCompleteStatus() {
+        return "[T]" + super.stringFormatCompleteStatus();
     }
 
     @Override
@@ -19,13 +19,15 @@ public class ToDoTask extends Task {
         if (keyword == null || keyword.isEmpty()) {
             return false;
         }
-        return getTaskName().toLowerCase().contains(keyword.toLowerCase());
+        String taskNameLowerCase = getTaskName().toLowerCase();
+        String keywordLowerCase = keyword.toLowerCase();
+        return taskNameLowerCase.contains(keywordLowerCase);
     }
 
     @Override
     public String toSaveFormat() {
         return "T | "
-                + super.printCompleteStatus() + "| "
+                + super.stringFormatCompleteStatus() + "| "
                 + getTaskName();
     }
 }

@@ -14,10 +14,13 @@ public class FindTasksCommand implements CommandExecutor {
 
     /**
      * Constructor, initializes class variables.
-     * @param taskList List of tasks the user has added.
-     * @param ui User interface where the responses to commands are displayed.
+     *
+     * @param taskList List of tasks the user has added; must not be null.
+     * @param ui User interface where the responses to commands are displayed; must not be null.
      */
     public FindTasksCommand(TaskList taskList, UI ui) {
+        assert taskList != null : "TaskList must not be null";
+        assert ui != null : "UI must not be null";
         this.taskList = taskList;
         this.ui = ui;
     }

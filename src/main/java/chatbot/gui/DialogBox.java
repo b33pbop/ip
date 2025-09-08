@@ -32,6 +32,7 @@ public class DialogBox extends HBox {
             fxmlLoader.load();
         } catch (IOException e) {
             e.printStackTrace();
+            assert false : "FXML file failed to load";
         }
 
         dialog.setText(text);
@@ -42,6 +43,7 @@ public class DialogBox extends HBox {
      * Flips the dialog box such that the ImageView is on the left and text on the right.
      */
     private void flip() {
+        assert !getChildren().isEmpty() : "DialogBox ust have children before flipping";
         ObservableList<Node> tmp = FXCollections.observableArrayList(this.getChildren());
         Collections.reverse(tmp);
         getChildren().setAll(tmp);
@@ -50,10 +52,14 @@ public class DialogBox extends HBox {
     }
 
     public static DialogBox getUserDialog(String text, Image img) {
+        assert text != null : "Dialog text must not be null";
+        assert img != null : "User profile image must not be null";
         return new DialogBox(text, img);
     }
 
     public static DialogBox getBotDialog(String text, Image img) {
+        assert text != null : "Dialog text must not be null";
+        assert img != null : "User profile image must not be null";
         var db = new DialogBox(text, img);
         db.flip();
         return db;

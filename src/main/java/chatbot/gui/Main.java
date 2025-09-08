@@ -21,10 +21,12 @@ public class Main extends Application {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/view/MainWindow.fxml"));
             AnchorPane ap = fxmlLoader.load();
+
             Scene scene = new Scene(ap);
             stage.setScene(scene);
             stage.setMinHeight(250);
             stage.setMinWidth(417);
+
             fxmlLoader.<MainWindow>getController().setDuke(b33pbop);
             stage.show();
         } catch (IOException e) {

@@ -24,6 +24,7 @@ public class DeadlineTask extends Task {
      */
     public DeadlineTask(String taskName, String deadline) throws BotException {
         super(taskName);
+
         try {
             this.deadline = LocalDate.parse(deadline);
         } catch (DateTimeParseException e) {

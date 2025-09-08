@@ -31,16 +31,18 @@ public class MarkTaskCommand implements CommandExecutor {
         String[] input = taskIdx.split(" ", 2);
         this.taskList.handleMarkTaskComplete(input[1]);
         String response;
-        if (this.storage != null) {
-            try {
-                storage.updateStorage(this.taskList.getAllTasks());
-            } catch (IOException e) {
-                response = "I didn't quite catch that, less work for me I guess";
-                return response;
-            }
-        } else {
+
+        if (this.storage == null) {
             return "I can't find my storage so I basically forgot what you just said";
         }
+
+        try {
+            storage.updateStorage(this.taskList.getAllTasks());
+        } catch (IOException e) {
+            response = "I didn't quite catch that, less work for me I guess";
+            return response;
+        }
+
         response = ui.markTaskCompleteResponse(this.taskList.getTask(Integer.parseInt(input[1])));
         return response;
     }

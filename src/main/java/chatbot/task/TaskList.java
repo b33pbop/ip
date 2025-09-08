@@ -11,9 +11,6 @@ import chatbot.exception.IncompleteArgumentException;
 import chatbot.exception.InvalidArgumentException;
 import chatbot.exception.TaskListIndexOutOfBoundException;
 
-
-
-
 /**
  * TaskList handles temporary storage of tasks user added.
  * It handles task addition, deletion, mark task complete, unmark task complete and loading tasks from storage.

@@ -60,10 +60,18 @@ public class EventTask extends Task {
         if (keyword == null || keyword.isEmpty()) {
             return false;
         }
-        String lowerKeyword = keyword.toLowerCase();
-        return getTaskName().toLowerCase().contains(lowerKeyword)
-                || from.format(DISPLAY_FORMAT).toLowerCase().contains(lowerKeyword)
-                || to.format(DISPLAY_FORMAT).toLowerCase().contains(lowerKeyword);
+
+        String keywordLowerCase = keyword.toLowerCase();
+        String taskNameLowerCase = getTaskName().toLowerCase();
+        String fromLowerCase = from.format(DISPLAY_FORMAT);
+        String toLowerCase = to.format(DISPLAY_FORMAT);
+
+        boolean taskNameContainsKeyword = taskNameLowerCase.contains(keywordLowerCase);
+        boolean fromContainsKeyword = fromLowerCase.contains(keywordLowerCase);
+        boolean toContainsKeyword = toLowerCase.contains(keywordLowerCase);
+        boolean startOrEndDateContainsKeyword = fromContainsKeyword || toContainsKeyword;
+
+        return taskNameContainsKeyword || startOrEndDateContainsKeyword;
     }
 
 

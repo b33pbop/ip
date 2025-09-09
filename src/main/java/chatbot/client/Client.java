@@ -11,6 +11,7 @@ public class Client {
 
     /**
      * Constructor for Client class.
+     *
      * @param name String name of the Client.
      * @param mobileNumber String mobile number of the Client.
      * @param lastContactedDate String date of last contact with Client.
@@ -23,6 +24,7 @@ public class Client {
 
     /**
      * Returns a String of the new last contacted date.
+     *
      * @param newLastContactedDate New date of last contact with Client.
      * @return True if update was successful.
      */
@@ -33,6 +35,7 @@ public class Client {
 
     /**
      * Returns a String of the new last contacted date.
+     *
      * @param newMobileNumber New date of last contact with Client.
      * @return True if update was successful.
      */
@@ -53,6 +56,10 @@ public class Client {
         return this.lastContactedDate;
     }
 
+    /**
+     * Return a formatted String of Client information to be saved in ClientStorage
+     * @return Client information
+     */
     public String toSaveFormat() {
         return getName() + " | " + getMobileNumber() + " | " + getLastContactedDate();
     }

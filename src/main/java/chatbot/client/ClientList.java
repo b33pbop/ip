@@ -26,6 +26,7 @@ public class ClientList {
 
     /**
      * Adds a new Client.
+     *
      * @param name Name of the client.
      * @param mobileNumber Mobile number of the client.
      * @param lastContactedDate Last contacted date of the client.
@@ -39,6 +40,7 @@ public class ClientList {
 
     /**
      * Deletes a client given its ID.
+     *
      * @param clientId 1-based index of the client.
      * @return The deleted Client.
      */
@@ -50,6 +52,7 @@ public class ClientList {
 
     /**
      * Updates the mobile number of a client.
+     *
      * @param clientId ID of the client.
      * @param newMobileNumber New mobile number.
      * @return True if update was successful.
@@ -61,6 +64,7 @@ public class ClientList {
 
     /**
      * Updates the last contacted date of a client.
+     *
      * @param clientId ID of the client.
      * @param newLastContactedDate New last contacted date.
      * @return True if update was successful.

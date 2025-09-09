@@ -33,7 +33,7 @@ public class Main extends Application {
             MainWindow controller = fxmlLoader.getController();
             assert controller != null : "FXML controller is null";
             controller.setDuke(b33pbop);
-          
+
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

@@ -40,8 +40,9 @@ public class TaskFactory {
             String[] descriptionArray = description.split("/from", 2);
             String taskName = descriptionArray[0].trim();
             String[] startEndArray = descriptionArray[1].split("/to", 2);
-            if (startEndArray.length < 2 || startEndArray[0].trim().isEmpty()
-                    || startEndArray[1].trim().isEmpty()) {
+            boolean isMissingDates = startEndArray[0].trim().isEmpty() || startEndArray[1].trim().isEmpty();
+
+            if (startEndArray.length < 2 || isMissingDates) {
                 throw new InvalidArgumentException("Do you not know when YOUR event starts and ends...\n");
             } else {
                 String from = startEndArray[0].trim();
@@ -57,7 +58,12 @@ public class TaskFactory {
         if (taskCreationCommand.contains("/by")) {
             // Parsing of input for EventTask
             String[] descriptionArray = description.split("/by", 2);
-            if (descriptionArray.length < 2 || descriptionArray[1].trim().isEmpty()) {
+            boolean isMissingDescription = descriptionArray[0].trim().isEmpty();
+            boolean isMissingDate = descriptionArray[1].trim().isEmpty();
+
+            if (isMissingDescription) {
+                throw new InvalidArgumentException("What task???");
+            } else if (isMissingDate) {
                 throw new InvalidArgumentException("Deadline task but you don't know the deadline...\n");
             } else {
                 String taskName = descriptionArray[0].trim();

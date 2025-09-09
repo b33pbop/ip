@@ -18,7 +18,7 @@ import chatbot.storage.Storage;
 import chatbot.task.TaskList;
 
 /**
- * B33PBOP is a command-line task management bot.
+ * B33PBOP is a GUI task management bot.
  * It supports commands to add tasks, delete tasks, list tasks, mark/unmark task completion and exit.
  */
 public class B33pbop {
@@ -73,7 +73,7 @@ public class B33pbop {
     }
 
     /**
-     * Retrieves the greeting String from the ui.
+     * Returns a String of the bot greeting.
      *
      * @return String with a greet message.
      */
@@ -82,7 +82,7 @@ public class B33pbop {
     }
 
     /**
-     * Retrieves bot response to user commands.
+     * Return a String representation of the bot response to user commands.
      *
      * @param input User input into the chatbot; must not be null or empty.
      * @return String response based on user input.
@@ -107,7 +107,7 @@ public class B33pbop {
     }
 
     /**
-     * Converts a string command into the corresponding Command enum.
+     * Returns a string command into the corresponding Command enum.
      *
      * @param cmdStr The string representation of the command; must not be null or empty.
      * @return The corresponding enum value of the cmdStr.

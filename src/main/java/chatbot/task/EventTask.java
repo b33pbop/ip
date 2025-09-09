@@ -98,9 +98,9 @@ public class EventTask extends Task {
             if (to.matches("\\d{1,2}:\\d{2}(:\\d{2})?")) {
                 String[] date = from.split(" ");
                 return DateTimeParser.combineDateAndTime(date[0], to);
-            } else {
-                return DateTimeParser.parseDateTime(to);
             }
+
+            return DateTimeParser.parseDateTime(to);
         } catch (DateTimeParseException e) {
             throw new InvalidArgumentException("Invalid end datetime: " + to);
         }
@@ -108,7 +108,7 @@ public class EventTask extends Task {
 
     private void validateDates(LocalDateTime from, LocalDateTime to) throws BotException {
         if (from.isAfter(to)) {
-            throw new InvalidEventEndDateException("Event cannot end before it starts!");
+            throw new InvalidEventEndDateException("You got a time machine?");
         }
     }
 }

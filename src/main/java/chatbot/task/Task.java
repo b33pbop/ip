@@ -56,7 +56,7 @@ public abstract class Task {
     }
 
     /**
-     * Returns a true if a keyword exists in a task description.
+     * Returns true if a keyword exists in a task description.
      *
      * @param keyword What the user is searching for.
      * @return True if keyword exists else false.

@@ -8,7 +8,7 @@ import chatbot.task.TaskList;
  */
 public class UI {
     /**
-     * Prints the initial greeting message when the bot starts
+     * Return a String of the initial greeting message when the bot starts
      */
     public String greetResponse() {
         return """
@@ -18,21 +18,21 @@ public class UI {
     }
 
     /**
-     * Prints the exit message when the BYE command is executed.
+     * Return a String of the exit message when the BYE command is executed.
      */
     public String byeResponse() {
         return "Please leave me alone\n";
     }
 
     /**
-     * Prints the current list of tasks in a formatted way when the LIST command is executed.
+     * Return a String of the current list of tasks in a formatted way when the LIST command is executed.
      */
     public String listResponse(TaskList myTasks) {
         return myTasks.showTaskList();
     }
 
     /**
-     * Marks a task as complete based on its index.
+     * Return a String of the bot's response when a user marks a task as complete based on its index.
      */
     public String markTaskCompleteResponse(Task task) {
         return "Ugh. Can't you do this yourself?\n"
@@ -40,7 +40,7 @@ public class UI {
     }
 
     /**
-     * Unmarks a task as complete based on its index.
+     * Return a String of the bot's response when a user unmarks a task as complete based on its index.
      */
     public String unmarkTaskCompleteResponse(Task task) {
         return "Make up your mind...\n"
@@ -48,7 +48,7 @@ public class UI {
     }
 
     /**
-     * Prints the bot's response when any add task command is executed.
+     * Return a String of the bot's response when any add task command is executed.
      */
     public String addTaskResponse(Task newTask) {
         return "This will be the last time I'm adding this for you:\n "
@@ -56,7 +56,7 @@ public class UI {
     }
 
     /**
-     * Prints the bot's response when the DELETE command is executed.
+     * Return a String of the bot's response when the DELETE command is executed.
      */
     public String deleteTaskResponse(Task task) {
         return "Thank god, you should really keep deleting tasks:\n"
@@ -64,7 +64,7 @@ public class UI {
     }
 
     /**
-     * Prints the bot's response when the FIND command is executed.
+     * Return a String of the bot's response when the FIND command is executed.
      * @param foundTasksString Tasks that matches keyword of user input in String format.
      */
     public String findTaskResponse(String foundTasksString) {
@@ -73,7 +73,7 @@ public class UI {
     }
 
     /**
-     * Prints the bot's response when there is an error with input
+     * Return a String of the bot's response when there is an error with input
      * @param errorMessage Error message when exception is caught
      */
     public String runErrorMessage(String errorMessage) {

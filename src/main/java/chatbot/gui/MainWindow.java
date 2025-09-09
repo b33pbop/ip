@@ -28,7 +28,7 @@ public class MainWindow extends AnchorPane {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
     }
 
-    /** Injects the Duke instance */
+    /** Injects the B33pbop instance */
     public void setDuke(B33pbop bb) {
         b33pbop = bb;
 

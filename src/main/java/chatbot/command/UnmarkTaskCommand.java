@@ -39,6 +39,7 @@ public class UnmarkTaskCommand implements CommandExecutor {
         if (this.storage == null) {
             return "I can't find my storage so I basically forgot what you just said";
         }
+
         try {
             storage.updateStorage(this.taskList.getAllTasks());
         } catch (IOException e) {

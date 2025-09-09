@@ -7,7 +7,7 @@ import chatbot.exception.BotException;
  */
 public interface CommandExecutor {
     /**
-     * Executes the user commands
+     * Returns the String output of executing a user commands
      *
      * @param taskDescription User input for the task.
      * @return Returns a response from the bot in String format.

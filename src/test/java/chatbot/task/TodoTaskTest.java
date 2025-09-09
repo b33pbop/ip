@@ -12,7 +12,7 @@ class TodoTaskTest {
     public void testPrintCompleteStatus_notDone() {
         ToDoTask task = new ToDoTask("read book");
         String expected = "[T][ ] ";
-        assertEquals(expected, task.printCompleteStatus());
+        assertEquals(expected, task.stringFormatCompleteStatus());
     }
 
     @Test
@@ -20,7 +20,7 @@ class TodoTaskTest {
         ToDoTask task = new ToDoTask("read book");
         task.markTaskComplete(); // Assuming Task has markAsDone()
         String expected = "[T][X] ";
-        assertEquals(expected, task.printCompleteStatus());
+        assertEquals(expected, task.stringFormatCompleteStatus());
     }
 
     @Test

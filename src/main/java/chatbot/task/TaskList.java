@@ -115,6 +115,10 @@ public class TaskList {
             String task = idx + "." + curTask + "\n";
             sb.append(task);
         }
+
+        if (sb.isEmpty()) {
+            return "Theres nothing, keep it that way :)";
+        }
         return "You really need help remembering all these?\n" + sb;
     }
 

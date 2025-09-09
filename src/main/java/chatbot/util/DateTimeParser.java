@@ -21,7 +21,7 @@ public class DateTimeParser {
     };
 
     /**
-     * Main method handling parsing of datetime for event tasks.
+     * Returns the parsed format of datetime for tasks.
      *
      * @param dateTime Datetime in String.
      * @return LocalDateTime object.
@@ -32,7 +32,8 @@ public class DateTimeParser {
             try {
                 return LocalDateTime.parse(dateTime, fmt);
             } catch (DateTimeParseException e) {
-                // continue trying other formats
+                // can be ignored since we want to continue trying different formats
+                // invalid inputs are thrown after this for loop
             }
         }
         throw new InvalidArgumentException("Invalid date/time format: " + dateTime + "\n");

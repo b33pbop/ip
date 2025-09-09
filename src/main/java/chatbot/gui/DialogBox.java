@@ -54,12 +54,14 @@ public class DialogBox extends HBox {
     public static DialogBox getUserDialog(String text, Image img) {
         assert text != null : "Dialog text must not be null";
         assert img != null : "User profile image must not be null";
+
         return new DialogBox(text, img);
     }
 
     public static DialogBox getBotDialog(String text, Image img) {
         assert text != null : "Dialog text must not be null";
         assert img != null : "User profile image must not be null";
+
         var db = new DialogBox(text, img);
         db.flip();
         return db;

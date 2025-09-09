@@ -28,8 +28,6 @@ public class Main extends Application {
             stage.setMinHeight(250);
             stage.setMinWidth(417);
 
-            fxmlLoader.<MainWindow>getController().setDuke(b33pbop);
-
             MainWindow controller = fxmlLoader.getController();
             assert controller != null : "FXML controller is null";
             controller.setDuke(b33pbop);

@@ -14,7 +14,7 @@ import chatbot.command.MarkTaskCommand;
 import chatbot.command.UnmarkTaskCommand;
 import chatbot.exception.BotException;
 import chatbot.exception.InvalidCommandException;
-import chatbot.storage.Storage;
+import chatbot.storage.TaskStorage;
 import chatbot.task.TaskList;
 
 /**
@@ -33,15 +33,15 @@ public class B33pbop {
         this.ui = new UI();
         this.myTasks = new TaskList();
 
-        Storage tempStorage;
+        TaskStorage tempTaskStorage;
         try {
-            tempStorage = new Storage();
-            myTasks.loadTasks(tempStorage.getStorageFile());
+            tempTaskStorage = new TaskStorage();
+            myTasks.loadTasks(tempTaskStorage.getStorageFile());
         } catch (IOException e) {
-            tempStorage = null;
+            tempTaskStorage = null;
         }
-        Storage storage = tempStorage;
-        registerCommands(storage);
+        TaskStorage taskStorage = tempTaskStorage;
+        registerCommands(taskStorage);
     }
     /**
      * Enum representing valid commands.
@@ -58,17 +58,17 @@ public class B33pbop {
         BYE
     }
 
-    private void registerCommands(Storage storage) {
+    private void registerCommands(TaskStorage taskStorage) {
         assert ui != null && myTasks != null : "UI and TaskList must be initialized";
 
         commandMap.put(Command.BYE, new ByeCommand(ui));
         commandMap.put(Command.LIST, new ListCommand(myTasks, ui));
-        commandMap.put(Command.TODO, new AddTaskCommand(myTasks, ui, storage));
-        commandMap.put(Command.DEADLINE, new AddTaskCommand(myTasks, ui, storage));
-        commandMap.put(Command.EVENT, new AddTaskCommand(myTasks, ui, storage));
-        commandMap.put(Command.DELETE, new DeleteTaskCommand(myTasks, ui, storage));
-        commandMap.put(Command.MARK, new MarkTaskCommand(myTasks, ui, storage));
-        commandMap.put(Command.UNMARK, new UnmarkTaskCommand(myTasks, ui, storage));
+        commandMap.put(Command.TODO, new AddTaskCommand(myTasks, ui, taskStorage));
+        commandMap.put(Command.DEADLINE, new AddTaskCommand(myTasks, ui, taskStorage));
+        commandMap.put(Command.EVENT, new AddTaskCommand(myTasks, ui, taskStorage));
+        commandMap.put(Command.DELETE, new DeleteTaskCommand(myTasks, ui, taskStorage));
+        commandMap.put(Command.MARK, new MarkTaskCommand(myTasks, ui, taskStorage));
+        commandMap.put(Command.UNMARK, new UnmarkTaskCommand(myTasks, ui, taskStorage));
         commandMap.put(Command.FIND, new FindTasksCommand(myTasks, ui));
     }
 

@@ -3,7 +3,7 @@ package chatbot.command;
 import java.io.IOException;
 
 import chatbot.exception.BotException;
-import chatbot.storage.Storage;
+import chatbot.storage.TaskStorage;
 import chatbot.task.Task;
 import chatbot.task.TaskList;
 import chatbot.ui.UI;
@@ -14,21 +14,22 @@ import chatbot.ui.UI;
 public class DeleteTaskCommand implements CommandExecutor {
     private final TaskList taskList;
     private final UI ui;
-    private final Storage storage;
+    private final TaskStorage taskStorage;
 
     /**
      * Constructor, initializes class variables.
      *
      * @param taskList List of tasks the user has added; must not be null.
      * @param ui User interface where the responses to commands are displayed; must not be null.
-     * @param storage Persistent storage for user's tasks.
+     * @param taskStorage Persistent storage for user's tasks.
      */
-    public DeleteTaskCommand(TaskList taskList, UI ui, Storage storage) {
+    public DeleteTaskCommand(TaskList taskList, UI ui, TaskStorage taskStorage) {
         assert taskList != null : "TaskList must not be null";
         assert ui != null : "UI must not be null";
         this.taskList = taskList;
         this.ui = ui;
-        this.storage = storage; // Storage might be null (problem is handled later in the code), no assertions needed
+        // Storage might be null (problem is handled later in the code), no assertions needed
+        this.taskStorage = taskStorage;
     }
 
     @Override
@@ -36,12 +37,12 @@ public class DeleteTaskCommand implements CommandExecutor {
         Task newTask = this.taskList.deleteTask(taskDescription);
         String response;
 
-        if (this.storage == null) {
+        if (this.taskStorage == null) {
             return "I can't find my storage so I basically forgot what you just said";
         }
 
         try {
-            storage.updateStorage(taskList.getAllTasks());
+            taskStorage.updateStorage(taskList.getAllTasks());
         } catch (IOException e) {
             response = "I didn't quite catch that, less work for me I guess";
             return response;

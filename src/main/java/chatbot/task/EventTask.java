@@ -5,9 +5,9 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 import chatbot.exception.BotException;
+import chatbot.exception.InvalidArgumentException;
 import chatbot.exception.InvalidEventEndDateException;
 import chatbot.util.DateTimeParser;
-
 
 /**
  * EventTask is a subclass of Task.
@@ -20,39 +20,30 @@ public class EventTask extends Task {
     // Date format when stored in Storage
     private static final DateTimeFormatter STORAGE_FORMAT =
             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-    private LocalDateTime from;
-    private LocalDateTime to;
+
+    private final LocalDateTime from;
+    private final LocalDateTime to;
 
     /**
-     * Event Task constructor
-     * @param taskName Name of task
-     * @param from Start datetime of the event
-     * @param to Ending datetime of the event
-     * @throws BotException If the datetime of to is before from
+     * Event Task constructor.
+     *
+     * @param taskName Name of task; must not be null or empty.
+     * @param from Start datetime of the event.
+     * @param to Ending datetime of the event.
+     * @throws BotException If the datetime of to is before from.
      */
     public EventTask(String taskName, String from, String to) throws BotException {
         super(taskName);
-        try {
-            this.from = DateTimeParser.parseDateTime(from);
-            if (to.matches("\\d{1,2}:\\d{2}(:\\d{2})?")) {
-                String[] date = from.split(" ");
-                this.to = DateTimeParser.combineDateAndTime(date[0], to);
-            } else {
-                this.to = DateTimeParser.parseDateTime(to);
-            }
+        assert taskName != null && !taskName.isEmpty() : "Task name must not be null or empty";
 
-            if (this.from.isAfter(this.to)) {
-                throw new InvalidEventEndDateException("How is your event ending before it starts???\n");
-            }
-
-        } catch (DateTimeParseException e) {
-            System.out.println("Invalid date format\n");
-        }
+        this.from = parseFromDateTime(from);
+        this.to = parseToDateTime(from, to);
+        validateDates(this.from, this.to);
     }
 
     @Override
-    public String printCompleteStatus() {
-        return "[E]" + super.printCompleteStatus();
+    public String stringFormatCompleteStatus() {
+        return "[E]" + super.stringFormatCompleteStatus();
     }
 
     @Override
@@ -60,17 +51,25 @@ public class EventTask extends Task {
         if (keyword == null || keyword.isEmpty()) {
             return false;
         }
-        String lowerKeyword = keyword.toLowerCase();
-        return getTaskName().toLowerCase().contains(lowerKeyword)
-                || from.format(DISPLAY_FORMAT).toLowerCase().contains(lowerKeyword)
-                || to.format(DISPLAY_FORMAT).toLowerCase().contains(lowerKeyword);
+
+        String keywordLowerCase = keyword.toLowerCase();
+        String taskNameLowerCase = getTaskName().toLowerCase();
+        String fromLowerCase = from.format(DISPLAY_FORMAT);
+        String toLowerCase = to.format(DISPLAY_FORMAT);
+
+        boolean taskNameContainsKeyword = taskNameLowerCase.contains(keywordLowerCase);
+        boolean fromContainsKeyword = fromLowerCase.contains(keywordLowerCase);
+        boolean toContainsKeyword = toLowerCase.contains(keywordLowerCase);
+        boolean startOrEndDateContainsKeyword = fromContainsKeyword || toContainsKeyword;
+
+        return taskNameContainsKeyword || startOrEndDateContainsKeyword;
     }
 
 
     @Override
     public String toSaveFormat() {
         return "E | "
-                + super.printCompleteStatus() + "| "
+                + super.stringFormatCompleteStatus() + "| "
                 + getTaskName() + " | "
                 + this.from.format(STORAGE_FORMAT) + " to " + this.to.format(STORAGE_FORMAT);
     }
@@ -83,5 +82,33 @@ public class EventTask extends Task {
                 + " to: "
                 + this.to.format(DISPLAY_FORMAT)
                 + ")";
+    }
+
+    // parseFromDateTime, parseToDateTIme and validateDates are helper methods used in the constructor
+    private LocalDateTime parseFromDateTime(String from) throws BotException {
+        try {
+            return DateTimeParser.parseDateTime(from);
+        } catch (DateTimeParseException e) {
+            throw new InvalidArgumentException("Invalid start datetime: " + from);
+        }
+    }
+
+    private LocalDateTime parseToDateTime(String from, String to) throws BotException {
+        try {
+            if (to.matches("\\d{1,2}:\\d{2}(:\\d{2})?")) {
+                String[] date = from.split(" ");
+                return DateTimeParser.combineDateAndTime(date[0], to);
+            }
+
+            return DateTimeParser.parseDateTime(to);
+        } catch (DateTimeParseException e) {
+            throw new InvalidArgumentException("Invalid end datetime: " + to);
+        }
+    }
+
+    private void validateDates(LocalDateTime from, LocalDateTime to) throws BotException {
+        if (from.isAfter(to)) {
+            throw new InvalidEventEndDateException("You got a time machine?");
+        }
     }
 }

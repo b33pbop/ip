@@ -13,14 +13,14 @@ public class DeadlineTaskTest {
     @Test
     public void testPrintCompleteStatus_incompleteTask() throws BotException {
         DeadlineTask task = new DeadlineTask("submit report", "2025-09-01");
-        assertEquals("[D][ ] ", task.printCompleteStatus());
+        assertEquals("[D][ ] ", task.stringFormatCompleteStatus());
     }
 
     @Test
     public void testPrintCompleteStatus_completedTask() throws BotException {
         DeadlineTask task = new DeadlineTask("submit report", "2025-09-01");
         task.markTaskComplete();
-        assertEquals("[D][X] ", task.printCompleteStatus());
+        assertEquals("[D][X] ", task.stringFormatCompleteStatus());
     }
 
     @Test

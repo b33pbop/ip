@@ -7,10 +7,9 @@ import java.util.List;
 
 import chatbot.task.Task;
 
-
 /**
  * Storage handles storage for B33PBOP.
- * On first usage, it creates a new DIRECTORY with a file B33PBOP.ui.B33PBOP.txt which stores tasks in String format.
+ * On first usage, it creates a new DIRECTORY with a file b33pbop.txt which stores tasks in String format.
  * Subsequent usage overwrites the existing file to update storage.
  */
 public class Storage {
@@ -19,18 +18,16 @@ public class Storage {
     /**
      * Initializes DIRECTORY and storageFile variables.
      * Creates a new directory and file if they do not exist.
-     * @throws IOException If storage creation fails
+     *
+     * @throws IOException If storage creation fails.
      */
     public Storage() throws IOException {
         File directory = new File("data");
         directory.mkdirs();
 
         storageFile = new File(directory, "b33pbop.txt");
-        if (!storageFile.exists()) {
-            boolean isCreated = storageFile.createNewFile();
-            if (!isCreated) {
-                throw new IOException("Failed to create storage file");
-            }
+        if (!storageFile.exists() && !storageFile.createNewFile()) {
+            throw new IOException("Failed to create storage file");
         }
     }
 
@@ -39,7 +36,8 @@ public class Storage {
     }
 
     /**
-     * Updates B33PBOP.ui.B33PBOP.txt file with a new task list.
+     * Updates b33pbop.txt file with a new task list.
+     *
      * @param tasks List of tasks added by the user.
      * @throws IOException If update fails.
      */

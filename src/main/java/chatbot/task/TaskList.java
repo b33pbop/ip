@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import chatbot.exception.BotException;
 import chatbot.exception.IncompleteArgumentException;
@@ -108,18 +110,16 @@ public class TaskList {
      * @return A string that lists all tasks with their indices (1-indexed).
      */
     public String showTaskList() {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < myTasks.size(); i++) {
-            int idx = i + 1;
-            Task curTask = myTasks.get(i);
-            String task = idx + "." + curTask + "\n";
-            sb.append(task);
-        }
+        String tasks = IntStream
+                .range(0, myTasks.size())
+                .mapToObj(i -> (i + 1) + "." + myTasks.get(i))
+                .collect(Collectors.joining("\n"));
 
-        if (sb.isEmpty()) {
+        if (tasks.isEmpty()) {
             return "Theres nothing, keep it that way :)";
         }
-        return "You really need help remembering all these?\n" + sb;
+
+        return "You really need help remembering all these?\n" + tasks;
     }
 
     /**
@@ -134,17 +134,11 @@ public class TaskList {
         if (input.length < 2) {
             throw new IncompleteArgumentException("Find what...\n");
         }
-        String keyword = input[1].trim();
-        Task[] taskMatches = new Task[myTasks.size()];
-        int counter = 0;
-        for (Task task : myTasks) {
-            if (task.existsInTaskDescription(keyword)) {
-                taskMatches[counter] = task;
-                counter++;
-            }
-        }
 
-        return taskMatches;
+        String keyword = input[1].trim();
+        return myTasks.stream()
+                .filter(task -> task.existsInTaskDescription(keyword))
+                .toArray(Task[]::new);
     }
 
     /**

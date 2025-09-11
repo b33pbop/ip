@@ -11,11 +11,11 @@ import java.util.stream.IntStream;
 import chatbot.exception.BotException;
 import chatbot.exception.IncompleteArgumentException;
 import chatbot.exception.InvalidArgumentException;
-import chatbot.exception.TaskListIndexOutOfBoundException;
+import chatbot.exception.ListIndexOutOfBoundException;
 
 /**
- * TaskList handles temporary storage of tasks user added.
- * It handles task addition, deletion, mark task complete, unmark task complete and loading tasks from storage.
+ * TaskList handles temporary storage of tasks the user added.
+ * It handles task addition, deletion, mark task complete, unmark task complete and loading tasks from TaskStorage.
  */
 public class TaskList {
     // List of tasks managed by the bot
@@ -49,11 +49,12 @@ public class TaskList {
     /**
      * Returns a deleted task based on its ID from the task list.
      *
+     * @param deleteCommand delete task command.
      * @return The deleted Task object.
      * @throws BotException If the task is empty or the taskId is invalid.
      */
-    public Task deleteTask(String taskDescription) throws BotException {
-        String[] input = taskDescription.split(" ");
+    public Task deleteTask(String deleteCommand) throws BotException {
+        String[] input = deleteCommand.split(" ");
         if (input.length > 2) {
             throw new InvalidArgumentException("Slow down buddy one at a time\n");
         }
@@ -61,7 +62,7 @@ public class TaskList {
         int taskId = Integer.parseInt(input[1].trim());
         int taskIdx = taskId - 1;
         if (myTasks.isEmpty()) {
-            throw new TaskListIndexOutOfBoundException("Your list is literally empty\n");
+            throw new ListIndexOutOfBoundException("Your list is literally empty\n");
         }
 
         if (taskId > myTasks.size()) {
@@ -91,6 +92,7 @@ public class TaskList {
 
     /**
      * Marks or unmarks a task as complete based on its index.
+     *
      * @param taskIdx 1-based index of the task to be marked/unmarked.
      * @throws BotException If index is invalid of the task does not exist.
      */

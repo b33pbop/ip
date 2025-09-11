@@ -1,5 +1,7 @@
 package chatbot.ui;
 
+import chatbot.client.Client;
+import chatbot.client.ClientList;
 import chatbot.task.Task;
 import chatbot.task.TaskList;
 
@@ -78,5 +80,41 @@ public class UI {
      */
     public String runErrorMessage(String errorMessage) {
         return errorMessage;
+    }
+
+    /**
+     * Returns a String of the bot's response when a client is deleted.
+     */
+    public String deleteClientResponse(Client client) {
+        return "Lost a client? Boo hoo!:\n"
+                + "- " + client + "\n";
+    }
+
+    /**
+     * Returns a String of the bot's response when a client is deleted.
+     */
+    public String addClientResponse(Client client) {
+        return "I wonder how long before you lose this one too\n"
+                + "+ " + client + "\n";
+    }
+
+    public String listClientResponse(ClientList clientList) {
+        return clientList.showClientList();
+    }
+
+    /**
+     * Returns a String of the bots response when a client is updated.
+     * @param client Client to be updated
+     */
+    public String updateClientResponse(Client client) {
+        return "You r welcome.\n"
+                + client;
+    }
+
+    /**
+     * Returns a String of the bots response when a client failed to be updated.
+     */
+    public String noClientUpdateResponse() {
+        return "hm";
     }
 }

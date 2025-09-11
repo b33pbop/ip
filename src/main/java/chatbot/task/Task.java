@@ -4,7 +4,7 @@ import chatbot.exception.BotException;
 import chatbot.exception.InvalidArgumentException;
 
 /**
- * Represents an abstract task with a name and a completion status.
+ * Task represents an abstract task with a name and a completion status.
  * A Task has a description and can be marked as complete or incomplete.
  * Subclasses of Task must override the toSaveFormat() method.
  */

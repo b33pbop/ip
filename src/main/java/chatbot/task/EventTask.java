@@ -54,8 +54,8 @@ public class EventTask extends Task {
 
         String keywordLowerCase = keyword.toLowerCase();
         String taskNameLowerCase = getTaskName().toLowerCase();
-        String fromLowerCase = from.format(DISPLAY_FORMAT);
-        String toLowerCase = to.format(DISPLAY_FORMAT);
+        String fromLowerCase = from.format(DISPLAY_FORMAT).toLowerCase();
+        String toLowerCase = to.format(DISPLAY_FORMAT).toLowerCase();
 
         boolean taskNameContainsKeyword = taskNameLowerCase.contains(keywordLowerCase);
         boolean fromContainsKeyword = fromLowerCase.contains(keywordLowerCase);
@@ -84,7 +84,7 @@ public class EventTask extends Task {
                 + ")";
     }
 
-    // parseFromDateTime, parseToDateTIme and validateDates are helper methods used in the constructor
+    // parseFromDateTime, parseToDateTime and validateDates are helper methods used in the constructor
     private LocalDateTime parseFromDateTime(String from) throws BotException {
         try {
             return DateTimeParser.parseDateTime(from);

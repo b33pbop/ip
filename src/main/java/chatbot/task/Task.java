@@ -42,6 +42,10 @@ public abstract class Task {
         this.isComplete = false;
     }
 
+    public boolean isComplete() {
+        return this.isComplete;
+    }
+
     /**
      * Returns a String representation of the complete status of a Task.
      *

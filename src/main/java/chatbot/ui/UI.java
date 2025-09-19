@@ -9,6 +9,8 @@ import chatbot.task.TaskList;
  * UI class handles communication between B33PBOP's functionality and user interface.
  */
 public class UI {
+    private boolean exitGuiRequested = false;
+
     /**
      * Return a String of the initial greeting message when the bot starts
      */
@@ -23,7 +25,12 @@ public class UI {
      * Return a String of the exit message when the BYE command is executed.
      */
     public String byeResponse() {
+        exitGuiRequested = true;
         return "Please leave me alone\n";
+    }
+
+    public boolean isExitGuiRequested() {
+        return exitGuiRequested;
     }
 
     /**

@@ -1,12 +1,15 @@
 package chatbot.gui;
 
 import chatbot.ui.B33pbop;
+import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import javafx.util.Duration;
 
 /**
  * Controller for the main GUI.
@@ -59,5 +62,13 @@ public class MainWindow extends AnchorPane {
         );
 
         userInput.clear();
+        if (b33pbop.getUi().isExitGuiRequested()) {
+            PauseTransition delay = new PauseTransition(Duration.seconds(1));
+            delay.setOnFinished(event -> {
+                Stage stage = (Stage) scrollPane.getScene().getWindow();
+                stage.close();
+            });
+            delay.play();
+        }
     }
 }

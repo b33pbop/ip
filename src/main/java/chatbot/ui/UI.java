@@ -30,7 +30,12 @@ public class UI {
      * Return a String of the current list of tasks in a formatted way when the LIST command is executed.
      */
     public String listResponse(TaskList myTasks) {
-        return myTasks.showTaskList();
+        String tasks = myTasks.showTaskList();
+        if (tasks.isEmpty()) {
+            return "Theres nothing, keep it that way :)";
+        }
+
+        return "You really need help remembering all these?\n" + tasks;
     }
 
     /**
@@ -115,6 +120,6 @@ public class UI {
      * Returns a String of the bots response when a client failed to be updated.
      */
     public String noClientUpdateResponse() {
-        return "hm";
+        return "Nothing changed, hmmm";
     }
 }

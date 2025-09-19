@@ -54,21 +54,27 @@ public class TaskList {
      * @throws BotException If the task is empty or the taskId is invalid.
      */
     public Task deleteTask(String deleteCommand) throws BotException {
+        String errorMessage;
         String[] input = deleteCommand.split(" ");
         if (input.length > 2) {
-            throw new InvalidArgumentException("Slow down buddy one at a time\n");
+            errorMessage = "Invalid Argument: Slow down buddy one at a time\n";
+            throw new InvalidArgumentException(errorMessage);
         }
 
         int taskId = Integer.parseInt(input[1].trim());
         int taskIdx = taskId - 1;
         if (myTasks.isEmpty()) {
-            throw new ListIndexOutOfBoundException("Your list is literally empty\n");
+            errorMessage = "Cannot Delete Task: Your list is literally empty\n";
+            throw new ListIndexOutOfBoundException(errorMessage);
         }
 
         if (taskId > myTasks.size()) {
-            throw new InvalidArgumentException("That task don't exist, do you even know what you added??\n");
+            errorMessage = "Invalid Task Id: You don't have that many tasks...\n";
+            throw new InvalidArgumentException(errorMessage);
         } else if (taskId < 1) {
-            throw new InvalidArgumentException("Are you drunk? Task " + taskId + "?\n");
+            errorMessage = "Are you drunk? Task " + taskId + "?\n"
+                    + "Keep it between 1 and " + myTasks.size();
+            throw new InvalidArgumentException(errorMessage);
         } else {
             return myTasks.remove(taskIdx);
         }
@@ -81,12 +87,15 @@ public class TaskList {
      * @throws BotException If index is invalid of the task does not exist.
      */
     public void handleMarkTaskComplete(String taskIdx) throws BotException {
+        String errorMessage;
         try {
             int taskIndex = Integer.parseInt(taskIdx.strip()) - 1;
             Task task = myTasks.get(taskIndex);
             task.markTaskComplete();
         } catch (NumberFormatException | IndexOutOfBoundsException e) {
-            throw new InvalidArgumentException("That task don't even exist\n");
+            errorMessage = "Invalid Task Id: That task don't exist...\n"
+                    + "Keep it between 1 and " + myTasks.size();
+            throw new InvalidArgumentException(errorMessage);
         }
     }
 
@@ -97,12 +106,15 @@ public class TaskList {
      * @throws BotException If index is invalid of the task does not exist.
      */
     public void handleUnmarkTaskComplete(String taskIdx) throws BotException {
+        String errorMessage;
         try {
             int taskIndex = Integer.parseInt(taskIdx) - 1;
             Task task = myTasks.get(taskIndex);
             task.unmarkTaskComplete();
         } catch (NumberFormatException | IndexOutOfBoundsException e) {
-            throw new InvalidArgumentException("That task don't even exist\n");
+            errorMessage = "Invalid Task Id: That task don't exist...\n"
+                    + "Keep it between 1 and " + myTasks.size();
+            throw new InvalidArgumentException(errorMessage);
         }
     }
 
@@ -112,16 +124,10 @@ public class TaskList {
      * @return A string that lists all tasks with their indices (1-indexed).
      */
     public String showTaskList() {
-        String tasks = IntStream
+        return IntStream
                 .range(0, myTasks.size())
                 .mapToObj(i -> (i + 1) + "." + myTasks.get(i))
                 .collect(Collectors.joining("\n"));
-
-        if (tasks.isEmpty()) {
-            return "Theres nothing, keep it that way :)";
-        }
-
-        return "You really need help remembering all these?\n" + tasks;
     }
 
     /**
@@ -134,7 +140,7 @@ public class TaskList {
     public Task[] findTasks(String search) throws BotException {
         String[] input = search.split(" ", 2);
         if (input.length < 2) {
-            throw new IncompleteArgumentException("Find what...\n");
+            throw new IncompleteArgumentException("Incomplete Command: Find what...\n");
         }
 
         String keyword = input[1].trim();

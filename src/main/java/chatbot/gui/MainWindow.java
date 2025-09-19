@@ -21,11 +21,18 @@ public class MainWindow extends AnchorPane {
 
     private B33pbop b33pbop;
 
-    private final Image userImage = new Image(this.getClass().getResourceAsStream("/images/user.png"));
-    private final Image b33pbopImage = new Image(this.getClass().getResourceAsStream("/images/bot.png"));
+    private final Image userImage = new Image(this.getClass().getResourceAsStream("/images/Ragebaiter.png"));
+    private final Image b33pbopImage = new Image(this.getClass().getResourceAsStream("/images/AngryYellowMan.png"));
+
+    /**
+     * Initializes the main window after its FXML elements are loaded.
+     */
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
+
+        // This line forces the dialogContainer to match the width of the scrollPane
+        dialogContainer.prefWidthProperty().bind(scrollPane.widthProperty());
     }
 
     /** Injects the B33pbop instance */

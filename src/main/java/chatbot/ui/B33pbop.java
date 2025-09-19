@@ -26,7 +26,7 @@ import chatbot.storage.TaskStorage;
 import chatbot.task.TaskList;
 
 /**
- * B33PBOP is a GUI task management bot.
+ * B33pbop is a GUI task management bot.
  * It supports commands to add tasks, delete tasks, list tasks, mark/unmark task completion and exit.
  */
 public class B33pbop {
@@ -91,6 +91,10 @@ public class B33pbop {
      */
     public String getGreeting() {
         return ui.greetResponse();
+    }
+
+    public UI getUi() {
+        return this.ui;
     }
 
     /**

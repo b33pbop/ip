@@ -8,10 +8,19 @@ Optimized for the Command Line Interface (CLI), B33PBOP allows you to manage tas
 
 - [Quick Start](#Quick-Start)
 - [Features](#Features)
-  - A
-  - B
-  - C
-  - 
+  - [Todo Task](#Todo-Task-todo)
+  - [Deadline Task](#Deadline-Task-deadline)
+  - [Event Task](#Event-Task-event)
+  - [Delete Task](#Delete-Task-delete)
+  - [Find Task](#Find-Task-find)
+  - [Mark Task Complete](#Mark-Task-mark)
+  - [Unmark Task Complete](#Unmark-Task-unmark)
+  - [Add Client](#Add-Client-client-add)
+  - [List Client](#List-Client-client-list)
+  - [Update Client](#Update-Client-client-update)
+  - [Delete Client](#Delete-Client-client-delete)
+  - [Exit B33PBOP](#Exit-B33PBOP-bye)
+
 ---
 
 ## Quick Start

@@ -30,7 +30,8 @@ public class DeadlineTask extends Task {
         try {
             this.deadline = LocalDate.parse(deadline);
         } catch (DateTimeParseException e) {
-            throw new InvalidArgumentException("Invalid date format for deadline: " + deadline + "\n");
+            String errorMessage = "Invalid date format for deadline: " + deadline + "\n" + "Expected: yyyy-MM-dd\n";
+            throw new InvalidArgumentException(errorMessage);
         }
     }
 

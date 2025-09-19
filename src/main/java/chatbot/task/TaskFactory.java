@@ -30,7 +30,7 @@ public class TaskFactory {
         case "event" -> parseEventTask(taskCreationCommand, description);
         case "deadline" -> parseDeadlineTask(taskCreationCommand, description);
         case "todo" -> parseTodoTask(description);
-        default -> throw new InvalidCommandException("I have zero clue what you are trying to say\n");
+        default -> throw new InvalidCommandException("Invalid Command: I have zero clue what you are trying to say\n");
         };
     }
 
@@ -43,14 +43,15 @@ public class TaskFactory {
             boolean isMissingDates = startEndArray[0].trim().isEmpty() || startEndArray[1].trim().isEmpty();
 
             if (startEndArray.length < 2 || isMissingDates) {
-                throw new InvalidArgumentException("Do you not know when YOUR event starts and ends...\n");
+                String errorMessage = "Incomplete Command: Do you not know when YOUR event starts and ends...\n";
+                throw new InvalidArgumentException(errorMessage);
             } else {
                 String from = startEndArray[0].trim();
                 String to = startEndArray[1].trim();
                 return new EventTask(taskName, from, to);
             }
         } else {
-            throw new InvalidCommandException("What are you even trying to say...\n");
+            throw new InvalidCommandException("Invalid Command: What are you even trying to say...\n");
         }
     }
 
@@ -61,23 +62,26 @@ public class TaskFactory {
             boolean isMissingDescription = descriptionArray[0].trim().isEmpty();
             boolean isMissingDate = descriptionArray[1].trim().isEmpty();
 
+            String errorMessage;
             if (isMissingDescription) {
-                throw new InvalidArgumentException("What task???");
+                errorMessage = "Incomplete Command: What task???";
+                throw new IncompleteArgumentException(errorMessage);
             } else if (isMissingDate) {
-                throw new InvalidArgumentException("Deadline task but you don't know the deadline...\n");
+                errorMessage = "Incomplete Command: Deadline task but you don't know the deadline...\n";
+                throw new IncompleteArgumentException(errorMessage);
             } else {
                 String taskName = descriptionArray[0].trim();
                 String deadline = descriptionArray[1].trim();
                 return new DeadlineTask(taskName, deadline);
             }
         } else {
-            throw new InvalidCommandException("Can you even type properly...\n");
+            throw new InvalidCommandException("Invalid Command: Can you even type properly...\n");
         }
     }
 
     private static ToDoTask parseTodoTask(String description) throws BotException {
         if (description.isEmpty()) {
-            throw new IncompleteArgumentException("To do... what?\n");
+            throw new IncompleteArgumentException("Incomplete Command: To do... what?\n");
         } else {
             return new ToDoTask(description);
         }

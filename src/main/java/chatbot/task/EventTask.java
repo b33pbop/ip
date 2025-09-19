@@ -89,7 +89,8 @@ public class EventTask extends Task {
         try {
             return DateTimeParser.parseDateTime(from);
         } catch (DateTimeParseException e) {
-            throw new InvalidArgumentException("Invalid start datetime: " + from);
+            String errorMessage = "Invalid Start Date: " + from + "\nExpected format: yyyy-MM-dd HH:mm\n";
+            throw new InvalidArgumentException(errorMessage);
         }
     }
 
@@ -102,13 +103,14 @@ public class EventTask extends Task {
 
             return DateTimeParser.parseDateTime(to);
         } catch (DateTimeParseException e) {
-            throw new InvalidArgumentException("Invalid end datetime: " + to);
+            String errorMessage = "Invalid Start Date: " + to + "\nExpected format: yyyy-MM-dd HH:mm\n";
+            throw new InvalidArgumentException(errorMessage);
         }
     }
 
     private void validateDates(LocalDateTime from, LocalDateTime to) throws BotException {
         if (from.isAfter(to)) {
-            throw new InvalidEventEndDateException("You got a time machine?");
+            throw new InvalidEventEndDateException("Invalid End Date: You got a time machine?");
         }
     }
 }

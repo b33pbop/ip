@@ -27,7 +27,7 @@ Optimized for the Command Line Interface (CLI), B33PBOP allows you to manage tas
 
 1. Ensure you have Java `17` or above installed in you Computer.  
 **Mac users**: Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
-2. Download the latest `.jar` file from [here]
+2. Download the latest `.jar` file from [here](https://github.com/b33pbop/ip/releases)
 3. Copy the file to the folder you want to use as the home folder for B33PBOP.
 4. Open the command terminal, `cd` into the folder you put the jar file in, and use the `java -jar B33pbop.jar`  
 command to run the application.  

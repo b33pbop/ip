@@ -6,20 +6,21 @@ Optimized for the Command Line Interface (CLI), B33PBOP allows you to manage tas
 
 ---
 
-- [Quick Start](#Quick-Start)
-- [Features](#Features)
-  - [Todo Task](#Todo-Task-todo)
-  - [Deadline Task](#Deadline-Task-deadline)
-  - [Event Task](#Event-Task-event)
-  - [Delete Task](#Delete-Task-delete)
-  - [Find Task](#Find-Task-find)
-  - [Mark Task Complete](#Mark-Task-mark)
-  - [Unmark Task Complete](#Unmark-Task-unmark)
-  - [Add Client](#Add-Client-client-add)
-  - [List Client](#List-Client-client-list)
-  - [Update Client](#Update-Client-client-update)
-  - [Delete Client](#Delete-Client-client-delete)
-  - [Exit B33PBOP](#Exit-B33PBOP-bye)
+- [Quick Start](#quick-start)
+- [Features](#features)
+  - [Todo Task](#todo-task-todo)
+  - [Deadline Task](#deadline-task-deadline)
+  - [Event Task](#event-task-event)
+  - [Delete Task](#delete-task-delete)
+  - [Find Task](#find-task-find)
+  - [Mark Task Complete](#mark-task-mark)
+  - [Unmark Task Complete](#unmark-task-unmark)
+  - [Add Client](#add-client-client-add)
+  - [List Client](#list-client-client-list)
+  - [Update Client](#update-client-client-update)
+  - [Delete Client](#delete-client-client-delete)
+  - [Exit B33PBOP](#exit-b33pbop-bye)
+
 
 ---
 
